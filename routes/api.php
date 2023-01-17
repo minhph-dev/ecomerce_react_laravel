@@ -3,14 +3,33 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BannerController;
 use App\Http\Controllers\API\BrandController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ColorController;
+use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+
+Route::controller(FrontendController::class)->group(function(){
+    Route::get('get-categories', 'getCategories');
+    Route::get('get-allProduct', 'getProducts');
+    Route::get('fetchproducts/{product_slug}', 'products');
+    Route::get('viewproductdetail/{category_slug}/{product_slug}', 'productdetails');
+    Route::get('search/{product_name}', 'searchProducts');
+
+    Route::get('get-home', 'getHome');
+});
+
+Route::controller(CartController::class)->group(function(){
+    Route::post('add-to-cart', 'addToCart');
+    Route::get('cart', 'viewCart');
+    Route::put('cart-updatequantity/{cart_id}/{scope}', 'updatequantity');
+    Route::delete('delete-cartitem/{cart_id}', 'deleteCartitem');
+});
 
 Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {
@@ -42,13 +61,6 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
         Route::get('all-color', 'allColors');
     });
     
-    // Route::controller(MaterialController::class)->group(function(){
-    //     Route::get('view-material', 'allMaterials');
-    //     Route::post('store-material', 'store');
-    //     Route::delete('delete-material/{material_name}', 'destroy');
-    //     Route::get('all-material', 'allMaterials');
-    // });
-    
     Route::controller(ProductController::class)->group(function(){
         Route::get('view-product', 'index');
         Route::get('create-product', 'create');
@@ -69,14 +81,12 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
         Route::get('all-banner', 'allBanner');
     
     });
-    // Route::controller(FrontendController::class)->group(function(){
-    //     Route::get('get-allProduct', 'getProduct');
-    //     Route::get('search/{product_name}', 'searchProducts');
-    // });
+    
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

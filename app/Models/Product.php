@@ -27,6 +27,11 @@ class Product extends Model
         'image'
     ];
 
+    protected $with=['category'];
+    public function category(){
+        return $this->belongsTo(Category::class, 'category_name', 'category_name');
+    }
+
     // public function productImages()
     // {
     //     return $this->hasMany(ProductImage::class, 'product_id', 'id');
