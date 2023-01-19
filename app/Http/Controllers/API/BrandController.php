@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,11 +32,21 @@ class BrandController extends Controller
                 'errors' => $validator->messages()
             ]);
         } else {
-            Brand::create([
-                'category_name' => $request->input('category_name'),
-                'brand_name' => $request->input('brand_name'),
-                'slug' => Str::slug($request->input('brand_name'))
-            ]);
+            $brand = new Brand();
+            $brand->category_name = $request->input('category_name');
+            $brand->brand_name = $request->input('brand_name');
+            $brand->slug = Str::slug($request->input('brand_name'));
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $ext = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $ext;
+
+                $file->move('uploads/brand/', $filename);
+                $imagePath = 'uploads/brand/' . $filename;
+                $brand->image = $imagePath;
+            }
+            $brand->save();
             return response()->json([
                 'status' => 200,
                 'message' => 'Brand Added Successfully'
@@ -63,11 +74,23 @@ class BrandController extends Controller
     {
         $brand = Brand::where('brand_name', $brand_name)->firstorfail();
         if ($brand) {
-            $brand->update([
-                'brand_name' => $request->input('brand_name'),
-                'slug' => Str::slug($request->input('brand_name')),
-                'category_name' => $request->input('category_name')
-            ]);
+            if ($request->hasFile('image')) {
+                $uploadPath = 'uploads/brand/';
+                $path = 'uploads/brand/' . $brand->image;
+                if (File::exists($path)) {
+                    File::delete($path);
+                }
+                $file = $request->file('image');
+                $ext = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $ext;
+    
+                $file->move('uploads/brand/', $filename);
+                $brand->image = $uploadPath.$filename;
+            }
+
+            $brand->category_name = $request->input('category_name');
+            $brand->update();
+
             return response()->json([
                 'status' => 200,
                 'message' => 'Brand Updated Successfully'

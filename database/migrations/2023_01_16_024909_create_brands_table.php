@@ -12,6 +12,7 @@ return new class extends Migration
             $table->string('brand_name')->primary();
             $table->string('slug');
             $table->string('category_name')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

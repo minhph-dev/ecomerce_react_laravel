@@ -16,11 +16,15 @@ class FrontendController extends Controller
     {
         $categories = Category::all();
         $banners = Banner::all();
+        $trendingProducts = Product::where('trending', '1')->latest()->get();
+        $featuredProducts = Product::where('featured', '1')->latest()->get();
         return response()->json([
             'status' => 200,
             'data' => [
                 'categories' => $categories,
                 'banners' => $banners,
+                'trendingProducts' => $trendingProducts,
+                'featuredProducts' => $featuredProducts,
             ]
         ]);
     }

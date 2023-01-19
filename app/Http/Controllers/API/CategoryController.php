@@ -86,7 +86,6 @@ class CategoryController extends Controller
             $category = Category::where('category_name', $category_name)->firstorfail();
 
             if($category){
-
                 if ($request->hasFile('image')) {
                     $uploadPath = 'uploads/category/';
                     $path = 'uploads/category/' . $category->image;

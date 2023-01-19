@@ -17,6 +17,7 @@ class Brand extends Model
         'brand_name',
         'slug',
         'category_name',
+        'image'
     ];
 
     public function category()
