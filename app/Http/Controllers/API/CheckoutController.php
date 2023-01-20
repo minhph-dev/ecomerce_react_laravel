@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\OrderItem;
 use Illuminate\Support\Facades\Validator;
 
 class CheckoutController extends Controller
@@ -28,38 +30,35 @@ class CheckoutController extends Controller
                 ]);
             } else {
                 $user_id = auth('sanctum')->user()->id;
-                $order = new Order();
-                $order->user_id = $user_id;
-                $order->tracking_no = 'order' . rand(111, 999);
-                $order->fullname = $request->fullname;
-                $order->email = $request->email;
-                $order->phone = $request->phone;
-                $order->pincode = $request->pincode;
-                $order->address = $request->address;
-                $order->status_message = $request->status_message;
-                $order->payment_mode = $request->payment_mode;
-                $order->payment_id = 'pay' . rand(111, 999);
-                $order->save();
+                $order = Order::create([
+                    'user_id' => $user_id,
+                    'tracking_no' => 'Order-' . Str::random(10),
+                    'fullname' => $request->fullname,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'pincode' => $request->pincode,
+                    'address' => $request->address,
+                    'status_message' => 'In progress',
+                    'payment_mode' => $request->payment_mode,
+                    'payment_id' => $request->payment_id,
+                ]);
 
                 $cart = Cart::where('user_id', $user_id)->get();
-
-                $orderitems = [];
-                foreach ($cart as $item) {
-                    $orderitems[] = [
-                        'product_id' => $item->product_id,
-                        'quantity' => $item->product_quantity,
-                        'price' => $item->product->selling_price
-                    ];
-
-                    $item->product->update([
-                        'quantity' => $item->product->quantity - $item->product_quantity,
-
+                foreach ($cart as $cartItem) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $cartItem->product_id,
+                        'product_color_name' => $cartItem->product_color_name,
+                        'quantity' => $cartItem->product_quantity,
+                        'price' => $cartItem->product->selling_price
                     ]);
+                    if ($cartItem->product_color_name != NULL) {
+                        $cartItem->productColor()->where('color_name', $cartItem->product_color_name)->decrement('quantity', $cartItem->product_quantity);
+                    } else {
+                        $cartItem->product()->where('id', $cartItem->product_id)->decrement('quantity', $cartItem->product_quantity);
+                    }
                 }
-
-                $order->orderitems()->createMany($orderitems);
                 Cart::destroy($cart);
-
                 return response()->json([
                     'status' => 200,
                     'message' => 'Order Placed Successfully',
