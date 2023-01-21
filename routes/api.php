@@ -20,11 +20,14 @@ Route::post('register', [AuthController::class, 'register']);
 Route::controller(FrontendController::class)->group(function(){
     Route::get('get-categories', 'getCategories');
     Route::get('get-allProduct', 'getProducts');
-    Route::get('fetchproducts/{product_slug}', 'products');
+    Route::get('fetchproducts/{category_slug}', 'productOfCategory');
+    Route::get('filter-brand/{brand_name}', 'productOfBrand');
     Route::get('viewproductdetail/{category_slug}/{product_slug}', 'productdetails');
     Route::get('search/{product_name}', 'searchProducts');
 
-    Route::get('get-home', 'getHome');
+    Route::get('home', 'home');
+    Route::get('trending', 'trending');
+    Route::get('featured', 'featured');
 });
 
 Route::controller(CartController::class)->group(function(){

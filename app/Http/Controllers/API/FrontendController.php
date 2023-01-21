@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
-    public function getHome()
+    public function home()
     {
         $categories = Category::all();
         $banners = Banner::all();
@@ -26,6 +26,23 @@ class FrontendController extends Controller
                 'trendingProducts' => $trendingProducts,
                 'featuredProducts' => $featuredProducts,
             ]
+        ]);
+    }
+    public function trending()
+    {
+        $trendingProducts = Product::where('trending', '1')->latest()->get();
+        return response()->json([
+            'status' => 200,
+            'trendingProducts' => $trendingProducts,
+        ]);
+    }
+
+    public function featured()
+    {
+        $featuredProducts = Product::where('featured', '1')->latest()->get();
+        return response()->json([
+            'status' => 200,
+            'featuredProducts' => $featuredProducts,
         ]);
     }
 
@@ -69,9 +86,10 @@ class FrontendController extends Controller
         }
     }
 
-    public function products($slug)
+    public function productOfCategory($category_slug)
     {
-        $category = Category::where('slug', $slug)->firstorfail();
+        $category = Category::where('slug', $category_slug)->firstorfail();
+        $brands = Brand::where('category_name', $category->category_name)->get();
         if ($category) {
             $products = Product::where('category_name', $category->category_name)->where('status', '0')->get();
             if ($products) {
@@ -79,7 +97,8 @@ class FrontendController extends Controller
                     'status' => 200,
                     'data' => [
                         'category' => $category,
-                        'products' => $products
+                        'products' => $products,
+                        'brands' => $brands,
                     ]
                 ]);
             } else {
@@ -96,11 +115,29 @@ class FrontendController extends Controller
         }
     }
 
+    public function productOfBrand($brand_name)
+    {
+        $products = Product::where('brand_name', $brand_name)->where('status', '0')->get();
+        if ($products) {
+            return response()->json([
+                'status' => 200,
+                'products' => $products
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => 'No Product Available'
+            ]);
+        }
+    }
+
     public function productdetails($category_slug, $product_slug)
     {
         $category = Category::where('slug', $category_slug)->firstorfail();
         if ($category) {
             $product = Product::where('category_name', $category->category_name)->where('slug', $product_slug)->where('status', '0')->firstorfail();
+            $relativeProductOfCategory = Product::where('category_name', $product->category_name)->get();
+            $relativeProductOfBrand = Product::where('brand_name', $product->brand_name)->get();
             $colorOfProducts = $product->productColors()->get();
             $productArr[] = [
                 'product' => $product,
@@ -109,7 +146,11 @@ class FrontendController extends Controller
             if ($product) {
                 return response()->json([
                     'status' => 200,
-                    'data' => $productArr
+                    'data' => [
+                        'product' => $productArr,
+                        'relativeProductOfCategory' => $relativeProductOfCategory,
+                        'relativeProductOfBrand' => $relativeProductOfBrand,
+                    ]
                 ]);
             } else {
                 return response()->json([

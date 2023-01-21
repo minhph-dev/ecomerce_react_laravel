@@ -27,9 +27,14 @@ class Product extends Model
         'image'
     ];
 
-    protected $with=['category'];
-    public function category(){
+    protected $with = ['category', 'brand'];
+    public function category()
+    {
         return $this->belongsTo(Category::class, 'category_name', 'category_name');
+    }
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class, 'brand_name', 'brand_name');
     }
 
     // public function productImages()
@@ -40,5 +45,4 @@ class Product extends Model
     {
         return $this->hasMany(ProductColor::class, 'product_id', 'id');
     }
-   
 }
