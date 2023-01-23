@@ -67,7 +67,7 @@ class ProductSeeder extends Seeder
             [
                 'category_name' => 'Mobile',
                 'product_name' => 'Samsung Galaxy S22 Ultra 5G 128GB',
-                'slug' => 'samsung-galaxy-s20-fe',
+                'slug' => 'samsung-galaxy-s22-ultra-5g',
                 'brand_name' => 'Sam Sung',
                 'description' => 'Galaxy S22 Ultra 5G chiếc smartphone cao cấp nhất trong bộ 3 Galaxy S22 series mà Samsung đã cho ra mắt. Tích hợp bút S Pen hoàn hảo trong thân máy, trang bị vi xử lý mạnh mẽ cho các tác vụ sử dụng vô cùng mượt mà và nổi bật hơn với cụm camera không viền độc đáo mang đậm dấu ấn riêng.',
                 'original_price' => 1401,
@@ -350,7 +350,7 @@ class ProductSeeder extends Seeder
             [
                 'category_name' => 'Tablet',
                 'product_name' => ' Máy tính bảng Samsung Galaxy Tab S8 Ultra 5G   ',
-                'slug' => ' May-Tinh-Bang-Samsung-Galaxy-Tab-S8-Ultra-5G ',
+                'slug' => 'May-Tinh-Bang-Samsung-Galaxy-Tab-S8-Ultra-5G ',
                 'brand_name' => 'SamSung',
                 'description' => 'Samsung Galaxy Tab S8 Ultra trang bị tấm nền Super AMOLED với kích thước lên đến 14.6 inch, điều này giúp cho hình ảnh hiển thị được rực rỡ và bắt mắt hơn khi trải nghiệm trên một chiếc màn hình khủng.',
                 'original_price' => 2000,
@@ -440,7 +440,7 @@ class ProductSeeder extends Seeder
             [
                 'category_name' => 'SmartWatch',
                 'product_name' => 'Apple Watch Ultra LTE 49mm',
-                'slug' => '/apple-watch-ultra-cao-su',
+                'slug' => 'apple-watch-ultra-cao-su',
                 'brand_name' => 'WATCH',
                 'description' => 'Đây cũng là phiên bản có màn hình sáng nhất trong tất cả Apple Watch với độ sáng lên đến 2000 nits, nút xoay Digital Crown cũng được chế tác to và bền hơn, giúp người dùng thao tác dễ dàng hơn trong mọi hoàn cảnh. ',
                 'original_price' => 1550,
