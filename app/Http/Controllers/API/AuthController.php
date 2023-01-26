@@ -29,6 +29,7 @@ class AuthController extends Controller
                 'phone'=>$request->phone ?? '',
                 'pin_code'=>$request->pin_code ?? '',
                 'address'=>$request->address ?? '',
+                'role_as'=>'0'
             ]);
             $token = $user->createToken($user->email.'_Token')->plainTextToken;
             return response()->json([

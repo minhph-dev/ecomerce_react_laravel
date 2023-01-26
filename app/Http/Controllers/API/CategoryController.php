@@ -33,11 +33,11 @@ class CategoryController extends Controller
             ]);
         }else{
             $category = new Category();
-            $category->category_name = $request->input('category_name');
-            $category->slug = Str::slug($request->input('category_name'));
+            $category->category_name = $request->category_name;
+            $category->slug = Str::slug($request->category_name);
             
-            $uploadPath = 'uploads/category/';
             if ($request->hasFile('image')) {
+                $uploadPath = 'uploads/category/';
                 $file = $request->file('image');
                 $ext = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $ext;
@@ -73,7 +73,6 @@ class CategoryController extends Controller
 
     public function update(Request $request , string $category_name){
         $validator = Validator::make($request->all(),[
-            // 'image' =>'image|mimes:jpeg,jpg,png,gif|nullable',
             'description' =>'nullable|max:191',
         ] );
 
@@ -100,7 +99,7 @@ class CategoryController extends Controller
                     $category->image = $uploadPath.$filename;
                 }
     
-                $category->description = $request->input('description');
+                $category->description = $request->description;
 
                 $category->update();
 

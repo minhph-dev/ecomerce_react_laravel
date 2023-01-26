@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -33,9 +34,9 @@ class BrandController extends Controller
             ]);
         } else {
             $brand = new Brand();
-            $brand->category_name = $request->input('category_name');
-            $brand->brand_name = $request->input('brand_name');
-            $brand->slug = Str::slug($request->input('brand_name'));
+            $brand->category_name = $request->category_name;
+            $brand->brand_name = $request->brand_name;
+            $brand->slug = Str::slug($request->brand_name);
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -56,11 +57,15 @@ class BrandController extends Controller
 
     public function edit(string $brand_name)
     {
+        $categories = Category::all();
         $brand = Brand::where('brand_name', $brand_name)->firstorfail();
         if ($brand) {
             return response()->json([
                 'status' => 200,
-                'brand' => $brand
+                'data' => [
+                    'categories' => $categories,
+                    'brand' => $brand
+                ]
             ]);
         } else {
             return response()->json([
@@ -83,12 +88,12 @@ class BrandController extends Controller
                 $file = $request->file('image');
                 $ext = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $ext;
-    
+
                 $file->move('uploads/brand/', $filename);
-                $brand->image = $uploadPath.$filename;
+                $brand->image = $uploadPath . $filename;
             }
 
-            $brand->category_name = $request->input('category_name');
+            $brand->category_name = $request->category_name;
             $brand->update();
 
             return response()->json([

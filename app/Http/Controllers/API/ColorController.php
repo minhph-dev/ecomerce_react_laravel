@@ -31,7 +31,7 @@ class ColorController extends Controller
             ]);
         } else {
             Color::create([
-                'color_name' => $request->input('color_name'),
+                'color_name' => $request->color_name,
             ]);
             return response()->json([
                 'status' => 200,

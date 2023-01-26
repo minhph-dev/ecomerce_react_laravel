@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AdminOrderController;
+use App\Http\Controllers\API\AdminUserController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BannerController;
 use App\Http\Controllers\API\BrandController;
@@ -95,9 +96,19 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
         Route::get('all-banner', 'allBanner');
     });
 
+    Route::controller(AdminUserController::class)->group(function () {
+        Route::post('store-user', 'store');
+        Route::get('view-user', 'allUser');
+        Route::get('edit-user/{id}', 'edit');
+        Route::post('update-user/{id}', 'update');
+        Route::delete('delete-user/{id}', 'destroy');
+    });
+
     Route::controller(AdminOrderController::class)->group(function () {
         Route::get('admin/orders','index');
         Route::get('admin/orders/{orderId}', 'show');
+        Route::post('admin/orders/{orderId}', 'updateOrderStatus');
+        Route::get('admin/filter-orders/{statusFilter}/{date}', 'filterOrder');
     });
 });
 
@@ -112,7 +123,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::controller(OrderController::class)->group(function () {
         Route::get('orders', 'myOrder');
-        Route::get('orders/{order_id}', 'orderDetails');
+        Route::get('orders/{orderId}', 'orderDetails');
     });
 
     Route::controller(CheckoutController::class)->group(function () {

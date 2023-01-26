@@ -35,9 +35,9 @@ class BannerController extends Controller
             ]);
         } else {
             $banner = new Banner();
-            $banner->title = $request->input('title');
-            $banner->description = $request->input('description');
-            $banner->link = $request->input('link');
+            $banner->title = $request->title;
+            $banner->description = $request->description;
+            $banner->link = $request->link;
         }
 
         if ($request->hasFile('image')) {
@@ -77,7 +77,6 @@ class BannerController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'description' => 'required|string:max:800',
-            // 'image' => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
         if ($validator->fails()) {
@@ -88,9 +87,9 @@ class BannerController extends Controller
         } else {
             $banner = Banner::find($id);
             if ($banner) {
-                $banner->title = $request->input('title');
-                $banner->description = $request->input('description');
-                $banner->link = $request->input('link');
+                $banner->title = $request->title;
+                $banner->description = $request->description;
+                $banner->link = $request->link;
                 if ($request->hasFile('image')) {
                     $uploadPath = 'uploads/banner/';
                     $path = 'uploads/banner/' . $banner->image;

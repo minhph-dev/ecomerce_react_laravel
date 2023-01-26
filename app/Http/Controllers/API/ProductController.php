@@ -58,22 +58,22 @@ class ProductController extends Controller
             ]);
         } else {
             $product = new Product();
-            $product->category_name = $request->input('category_name');
-            $product->product_name = $request->input('product_name');
-            $product->slug = Str::slug($request->input('product_name'));
-            $product->brand_name = $request->input('brand_name');
-            $product->description = $request->input('description');
+            $product->category_name = $request->category_name;
+            $product->product_name = $request->product_name;
+            $product->slug = Str::slug($request->product_name);
+            $product->brand_name = $request->brand_name;
+            $product->description = $request->description;
 
-            $product->original_price = $request->input('original_price');
-            $product->selling_price = $request->input('selling_price');
-            $product->quantity = $request->input('quantity');
-            $product->trending = $request->input('trending') == true ? '1' : '0';
-            $product->featured = $request->input('featured') == true ? '1' : '0';
-            $product->status = $request->input('status') == true ? '1' : '0';
+            $product->original_price = $request->original_price;
+            $product->selling_price = $request->selling_price;
+            $product->quantity = $request->quantity;
+            $product->trending = $request->trending == true ? '1' : '0';
+            $product->featured = $request->featured == true ? '1' : '0';
+            $product->status = $request->status == true ? '1' : '0';
 
-            $product->meta_title = $request->input('meta_title');
-            $product->meta_keyword = $request->input('meta_keyword');
-            $product->meta_description = $request->input('meta_description');
+            $product->meta_title = $request->meta_title;
+            $product->meta_keyword = $request->meta_keyword;
+            $product->meta_description = $request->meta_description;
 
             if ($request->hasFile('image')) {
                 $file = $request->file('image');
@@ -85,8 +85,8 @@ class ProductController extends Controller
             }
             $product->save();
 
-            if ($request->input('colorQuantity')) {
-                $colorsQuantity = json_decode($request->input('colorQuantity'), true);
+            if ($request->colorQuantity) {
+                $colorsQuantity = json_decode($request->colorQuantity, true);
                 foreach ($colorsQuantity as $color => $quantity) {
                     $product->productColors()->create([
                         'product_id' => $product->id,
@@ -149,22 +149,22 @@ class ProductController extends Controller
         } else {
             $product = Product::find($id);
             if ($product) {
-                $product->category_name = $request->input('category_name');
-                $product->product_name = $request->input('product_name');
-                $product->slug = Str::slug($request->input('product_name'));
-                $product->brand_name = $request->input('brand_name');
-                $product->description = $request->input('description');
+                $product->category_name = $request->category_name;
+                $product->product_name = $request->product_name;
+                $product->slug = Str::slug($request->product_name);
+                $product->brand_name = $request->brand_name;
+                $product->description = $request->description;
 
-                $product->original_price = $request->input('original_price');
-                $product->selling_price = $request->input('selling_price');
-                $product->quantity = $request->input('quantity');
-                $product->trending = $request->input('trending') == true ? '1' : '0';
-                $product->featured = $request->input('featured') == true ? '1' : '0';
-                $product->status = $request->input('status') == true ? '1' : '0';
+                $product->original_price = $request->original_price;
+                $product->selling_price = $request->selling_price;
+                $product->quantity = $request->quantity;
+                $product->trending = $request->trending == true ? '1' : '0';
+                $product->featured = $request->featured == true ? '1' : '0';
+                $product->status = $request->status == true ? '1' : '0';
 
-                $product->meta_title = $request->input('meta_title');
-                $product->meta_keyword = $request->input('meta_keyword');
-                $product->meta_description = $request->input('meta_description');
+                $product->meta_title = $request->meta_title;
+                $product->meta_keyword = $request->meta_keyword;
+                $product->meta_description = $request->meta_description;
 
                 if ($request->hasFile('image')) {
                     $uploadPath = 'uploads/product/';
@@ -182,8 +182,8 @@ class ProductController extends Controller
 
                 $product->update();
 
-                if ($request->input('colorQuantity')) {
-                    $colorsQuantity = json_decode($request->input('colorQuantity'), true);
+                if ($request->colorQuantity) {
+                    $colorsQuantity = json_decode($request->colorQuantity, true);
                     foreach ($colorsQuantity as $color => $quantity) {
                         $product->productColors()->create([
                             'product_id' => $product->id,
@@ -226,9 +226,9 @@ class ProductController extends Controller
 
     public function updateProdColorQty(Request $request, $color_name)
     {
-        $productColorData = Product::findOrFail($request->input('product_id'))
+        $productColorData = Product::findOrFail($request->product_id)
             ->productColors()->where('color_name', $color_name)->first();
-            $colorsQuantity = json_decode($request->input('colorQuantity'), true);
+            $colorsQuantity = json_decode($request->colorQuantity, true);
             if($colorsQuantity){
                 foreach ($colorsQuantity as $color => $quantity) {
                     $productColorData->update([
