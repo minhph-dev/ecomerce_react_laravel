@@ -68,7 +68,6 @@ class WishlistController extends Controller
         if (auth('sanctum')->check()) {
             $user_id = auth('sanctum')->user()->id;
             $cartitem = Wishlist::where('id', $cart_id)->where('user_id', $user_id)->first();
-
             if ($cartitem) {
                 $cartitem->delete();
                 return response()->json([

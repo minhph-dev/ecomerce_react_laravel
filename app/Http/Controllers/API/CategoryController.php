@@ -11,37 +11,46 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
-    public function allCategories(){
+    public function allCategories()
+    {
         $categories = Category::all();
-        return response()->json([
-            'status' => 200,
-            'categories' => $categories
-        ]);
+        if ($categories) {
+            return response()->json([
+                'status' => 200,
+                'categories' => $categories
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Category Found'
+            ]);
+        }
     }
 
-    public function store(Request $request){
-        $validator = Validator::make($request->all(),[
-            'category_name' =>'required|unique:categories',
-            'image' =>'nullable|image|mimes:jpeg,jpg,png,gif',
-            'description' =>'nullable|max:255',
-        ] );
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category_name' => 'required|unique:categories',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,gif',
+            'description' => 'nullable|max:255',
+        ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
-                'errors' =>$validator->messages()
+                'errors' => $validator->messages()
             ]);
-        }else{
+        } else {
             $category = new Category();
             $category->category_name = $request->category_name;
             $category->slug = Str::slug($request->category_name);
-            
+
             if ($request->hasFile('image')) {
                 $uploadPath = 'uploads/category/';
                 $file = $request->file('image');
                 $ext = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $ext;
-    
+
                 $file->move('uploads/category/', $filename);
                 $category->image = $uploadPath . $filename;
             }
@@ -50,20 +59,20 @@ class CategoryController extends Controller
             $category->save();
             return response()->json([
                 'status' => 200,
-                'message' =>'Category Added Successfully'
+                'message' => 'Category Added Successfully'
             ]);
         }
-
     }
 
-    public function edit(string $category_name){
+    public function edit(string $category_name)
+    {
         $category = Category::where('category_name', $category_name)->firstorfail();
-        if($category){
+        if ($category) {
             return response()->json([
                 'status' => 200,
                 'category' => $category
             ]);
-        }else{
+        } else {
             return response()->json([
                 'status' => 404,
                 'message' => 'No Category Name Found'
@@ -71,20 +80,21 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(Request $request , string $category_name){
-        $validator = Validator::make($request->all(),[
-            'description' =>'nullable|max:191',
-        ] );
+    public function update(Request $request, string $category_name)
+    {
+        $validator = Validator::make($request->all(), [
+            'description' => 'nullable|max:191',
+        ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
-                'errors' =>$validator->messages()
+                'errors' => $validator->messages()
             ]);
-        }else{
+        } else {
             $category = Category::where('category_name', $category_name)->firstorfail();
 
-            if($category){
+            if ($category) {
                 if ($request->hasFile('image')) {
                     $uploadPath = 'uploads/category/';
                     $path = 'uploads/category/' . $category->image;
@@ -94,41 +104,41 @@ class CategoryController extends Controller
                     $file = $request->file('image');
                     $ext = $file->getClientOriginalExtension();
                     $filename = time() . '.' . $ext;
-        
+
                     $file->move('uploads/category/', $filename);
-                    $category->image = $uploadPath.$filename;
+                    $category->image = $uploadPath . $filename;
                 }
-    
+
                 $category->description = $request->description;
 
                 $category->update();
 
                 return response()->json([
                     'status' => 200,
-                    'message' =>'Category Updated Successfully'
+                    'message' => 'Category Updated Successfully'
                 ]);
-            }else{
+            } else {
                 return response()->json([
                     'status' => 404,
-                    'message' =>'No Category Name Found'
+                    'message' => 'No Category Name Found'
                 ]);
             }
-
         }
     }
 
-    public function destroy(string $category_name){
+    public function destroy(string $category_name)
+    {
         $category = Category::where('category_name', $category_name)->firstorfail();
-        if($category){
+        if ($category) {
             $category->delete();
             return response()->json([
                 'status' => 200,
-                'message' =>'Category deleted successfully'
+                'message' => 'Category deleted successfully'
             ]);
-        }else{
+        } else {
             return response()->json([
                 'status' => 404,
-                'message' =>'No Category Name Found'
+                'message' => 'No Category Name Found'
             ]);
         }
     }

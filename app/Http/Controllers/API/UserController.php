@@ -14,10 +14,17 @@ class UserController extends Controller
     public function profile()
     {
         $myProfile = auth('sanctum')->user();
-        return response()->json([
-            'status' => 200,
-            'myProfile' => $myProfile
-        ]);
+        if ($myProfile) {
+            return response()->json([
+                'status' => 200,
+                'myProfile' => $myProfile
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "No Profile Found"
+            ]);
+        }
     }
 
     public function updateProfile(Request $request)
@@ -35,16 +42,23 @@ class UserController extends Controller
             ]);
         } else {
             $user = User::findOrFail(Auth::user()->id);
-            $user->update([
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'pin_code' => $request->pin_code,
-                'address' => $request->address,
-            ]);
-            return response()->json([
-                'status' => 200,
-                'message' => 'Information Updated successfully'
-            ]);
+            if ($user) {
+                $user->update([
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'pin_code' => $request->pin_code,
+                    'address' => $request->address,
+                ]);
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Information Updated successfully'
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Information Updated Faild'
+                ]);
+            }
         }
     }
 

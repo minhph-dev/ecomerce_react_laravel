@@ -8,74 +8,120 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\Product;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
 {
+
+    public function setting()
+    {
+        $setting = Setting::first();
+        if ($setting) {
+            return response()->json([
+                'status' => 200,
+                'setting' => $setting
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Setting Not Found'
+            ]);
+        }
+    }
+
     public function home()
     {
         $categories = Category::all();
         $banners = Banner::all();
         $trendingProducts = Product::where('trending', '1')->latest()->get();
         $featuredProducts = Product::where('featured', '1')->latest()->get();
-        return response()->json([
-            'status' => 200,
-            'data' => [
-                'categories' => $categories,
-                'banners' => $banners,
-                'trendingProducts' => $trendingProducts,
-                'featuredProducts' => $featuredProducts,
-            ]
-        ]);
+        if ($categories || $banners || $trendingProducts || $featuredProducts) {
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'categories' => $categories ?? [],
+                    'banners' => $banners ?? [],
+                    'trendingProducts' => $trendingProducts ?? [],
+                    'featuredProducts' => $featuredProducts ?? [],
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Home Page Not Found'
+            ]);
+        }
     }
     public function trending()
     {
         $trendingProducts = Product::where('trending', '1')->latest()->get();
-        return response()->json([
-            'status' => 200,
-            'trendingProducts' => $trendingProducts,
-        ]);
+        if ($trendingProducts) {
+            return response()->json([
+                'status' => 200,
+                'trendingProducts' => $trendingProducts,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Trending Page Not Found'
+            ]);
+        }
     }
 
     public function featured()
     {
         $featuredProducts = Product::where('featured', '1')->latest()->get();
-        return response()->json([
-            'status' => 200,
-            'featuredProducts' => $featuredProducts,
-        ]);
+        if ($featuredProducts) {
+            return response()->json([
+                'status' => 200,
+                'featuredProducts' => $featuredProducts,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Featured Page Not Found'
+            ]);
+        }
     }
 
-    public function getCategories()
+    public function categories()
     {
         $categories = Category::all();
-        return response()->json([
-            'status' => 200,
-            'categories' => $categories
-        ]);
+        if ($categories) {
+            return response()->json([
+                'status' => 200,
+                'categories' => $categories
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Category Not Found'
+            ]);
+        }
     }
 
-    public function getProducts()
+    public function products()
     {
         $allCategory = Category::all();
         $allBrand = Brand::all();
         $allColor = Color::all();
         $products = Product::all();
-        foreach ($products as $product) {
-            $colorOfProducts = $product->productColors()->get();
-            $productArr[] = [
-                'product' => $product,
-                'colorOfProducts' => $colorOfProducts,
-            ];
-        }
         if ($products) {
+            foreach ($products as $product) {
+                $colorOfProducts = $product->productColors()->get();
+                $productArr[] = [
+                    'product' => $product,
+                    'colorOfProducts' => $colorOfProducts,
+                ];
+            }
             return response()->json([
                 'status' => 200,
                 'data' => [
-                    'allCategory' => $allCategory,
-                    'allBrand' => $allBrand,
-                    'allColor' => $allColor,
-                    'products' => $productArr
+                    'allCategory' => $allCategory ?? [],
+                    'allBrand' => $allBrand ?? [],
+                    'allColor' => $allColor ?? [],
+                    'products' => $productArr ?? []
                 ]
             ]);
         } else {
@@ -98,7 +144,7 @@ class FrontendController extends Controller
                     'data' => [
                         'category' => $category,
                         'products' => $products,
-                        'brands' => $brands,
+                        'brands' => $brands ?? [],
                     ]
                 ]);
             } else {
@@ -126,7 +172,7 @@ class FrontendController extends Controller
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'No Product Available'
+                'message' => 'No Product Found'
             ]);
         }
     }
@@ -143,25 +189,25 @@ class FrontendController extends Controller
                 'product' => $product,
                 'colorOfProducts' => $colorOfProducts,
             ];
-            if ($product) {
+            if ($productArr) {
                 return response()->json([
                     'status' => 200,
                     'data' => [
-                        'product' => $productArr,
-                        'relativeProductOfCategory' => $relativeProductOfCategory,
-                        'relativeProductOfBrand' => $relativeProductOfBrand,
+                        'product' => $productArr ?? [],
+                        'relativeProductOfCategory' => $relativeProductOfCategory ?? [],
+                        'relativeProductOfBrand' => $relativeProductOfBrand ?? [],
                     ]
                 ]);
             } else {
                 return response()->json([
                     'status' => 400,
-                    'message' => 'No Product Available'
+                    'message' => 'No Product Details Found'
                 ]);
             }
         } else {
             return response()->json([
                 'status' => 400,
-                'message' => 'No Such Category Found'
+                'message' => 'No Product Details Found'
             ]);
         }
     }
@@ -169,22 +215,11 @@ class FrontendController extends Controller
     public function searchProducts($product_name)
     {
         if ($product_name) {
-            $searchProducts = Product::where('product_name', 'LIKE', '%' . $product_name . '%')->latest()->paginate(15);
-            foreach ($searchProducts as $product) {
-                $colorOfProducts = $product->productColors()->get();
-                $materialOfProducts = $product->productMaterials()->get();
-                $productArr[] = [
-                    'product' => $product,
-                    'colorOfProducts' => $colorOfProducts,
-                    'materialOfProducts' => $materialOfProducts
-                ];
-            }
+            $searchProducts = Product::where('product_name', 'LIKE', '%' . $product_name . '%')->latest()->get();
             if ($searchProducts) {
                 return response()->json([
                     'status' => 200,
-                    'data' => [
-                        'searchProducts' => $productArr
-                    ]
+                    'searchProducts' =>  $searchProducts
                 ]);
             } else {
                 return response()->json([

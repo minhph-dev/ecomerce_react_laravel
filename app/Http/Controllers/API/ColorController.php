@@ -12,10 +12,17 @@ class ColorController extends Controller
     public function allColors()
     {
         $colors = Color::all();
-        return response()->json([
-            'status' => 200,
-            'colors' => $colors
-        ]);
+        if ($colors) {
+            return response()->json([
+                'status' => 200,
+                'colors' => $colors
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Color Found'
+            ]);
+        }
     }
 
     public function store(Request $request)

@@ -15,10 +15,17 @@ class BrandController extends Controller
     public function allBrands()
     {
         $brands = Brand::all();
-        return response()->json([
-            'status' => 200,
-            'brands' => $brands
-        ]);
+        if ($brands) {
+            return response()->json([
+                'status' => 200,
+                'brands' => $brands
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Brand Found'
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -34,7 +41,7 @@ class BrandController extends Controller
             ]);
         } else {
             $brand = new Brand();
-            $brand->category_name = $request->category_name;
+            $brand->category_name = $request->category_name ?? "No Category";
             $brand->brand_name = $request->brand_name;
             $brand->slug = Str::slug($request->brand_name);
 
@@ -58,20 +65,22 @@ class BrandController extends Controller
     public function edit(string $brand_name)
     {
         $categories = Category::all();
-        $brand = Brand::where('brand_name', $brand_name)->firstorfail();
-        if ($brand) {
-            return response()->json([
-                'status' => 200,
-                'data' => [
-                    'categories' => $categories,
-                    'brand' => $brand
-                ]
-            ]);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => 'No Brand Name Found'
-            ]);
+        if ($categories) {
+            $brand = Brand::where('brand_name', $brand_name)->firstorfail();
+            if ($brand) {
+                return response()->json([
+                    'status' => 200,
+                    'data' => [
+                        'categories' => $categories,
+                        'brand' => $brand
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No Brand Name Found'
+                ]);
+            }
         }
     }
 

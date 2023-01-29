@@ -13,10 +13,17 @@ class AdminUserController extends Controller
     public function allUser()
     {
         $users = User::all();
-        return response()->json([
-            'status' => 200,
-            'users' => $users
-        ]);
+        if ($users) {
+            return response()->json([
+                'status' => 200,
+                'users' => $users
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No User Found'
+            ]);
+        }
     }
 
     public function store(Request $request)

@@ -18,10 +18,17 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return response()->json([
-            'status' => 200,
-            'products' => $products
-        ]);
+        if ($products) {
+            return response()->json([
+                'status' => 200,
+                'products' => $products
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Product Found'
+            ]);
+        }
     }
 
     public function create()
@@ -29,14 +36,16 @@ class ProductController extends Controller
         $allCategory = Category::all();
         $allBrand = Brand::all();
         $allColor = Color::all();
-        return response()->json([
-            'status' => 200,
-            'data' => [
-                'allCategory' => $allCategory,
-                'allBrand' => $allBrand,
-                'allColor' => $allColor,
-            ]
-        ]);
+        if ($allCategory) {
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'allCategory' => $allCategory ?? [],
+                    'allBrand' => $allBrand ?? [],
+                    'allColor' => $allColor ?? [],
+                ]
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -61,7 +70,7 @@ class ProductController extends Controller
             $product->category_name = $request->category_name;
             $product->product_name = $request->product_name;
             $product->slug = Str::slug($request->product_name);
-            $product->brand_name = $request->brand_name;
+            $product->brand_name = $request->brand_name ?? "No Brand";
             $product->description = $request->description;
 
             $product->original_price = $request->original_price;
@@ -114,11 +123,11 @@ class ProductController extends Controller
             return response()->json([
                 'status' => 200,
                 'data' => [
-                    'allCategory' => $allCategory,
-                    'allBrand' => $allBrand,
-                    'allColor' => $allColor,
-                    'product' => $product,
-                    'colorOfProducts' => $colorOfProducts,
+                    'allCategory' => $allCategory ?? [],
+                    'allBrand' => $allBrand ?? [],
+                    'allColor' => $allColor ?? [],
+                    'product' => $product ?? [],
+                    'colorOfProducts' => $colorOfProducts ?? [],
                 ]
             ]);
         } else {
@@ -228,20 +237,20 @@ class ProductController extends Controller
     {
         $productColorData = Product::findOrFail($request->product_id)
             ->productColors()->where('color_name', $color_name)->first();
-            $colorsQuantity = json_decode($request->colorQuantity, true);
-            if($colorsQuantity){
-                foreach ($colorsQuantity as $color => $quantity) {
-                    $productColorData->update([
-                        'quantity' => $quantity
-                    ]);
-                }
-                return response()->json(['status' => 200, 'message' => 'Product Colors Quantity Updated']);
-            }else{
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'No Product Color Quantity Found'
+        $colorsQuantity = json_decode($request->colorQuantity, true);
+        if ($colorsQuantity) {
+            foreach ($colorsQuantity as $color => $quantity) {
+                $productColorData->update([
+                    'quantity' => $quantity
                 ]);
             }
+            return response()->json(['status' => 200, 'message' => 'Product Colors Quantity Updated']);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Product Color Quantity Found'
+            ]);
+        }
     }
 
     public function deleteProdColor($color_name)
@@ -258,6 +267,37 @@ class ProductController extends Controller
                 'status' => 404,
                 'message' => 'No Product Color Id Found'
             ]);
+        }
+    }
+
+    public function search($product_name)
+    {
+        if ($product_name !== "") {
+            $searchProducts = Product::where('product_name', 'LIKE', '%' . $product_name . '%')->latest()->get();
+            if ($searchProducts) {
+                return response()->json([
+                    'status' => 200,
+                    'searchProducts' =>  $searchProducts
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No Product Found'
+                ]);
+            }
+        } else {
+            $searchProducts = Product::all();
+            if ($searchProducts) {
+                return response()->json([
+                    'status' => 200,
+                    'searchProducts' =>  $searchProducts
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'No Product Found'
+                ]);
+            }
         }
     }
 }

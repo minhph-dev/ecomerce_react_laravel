@@ -12,6 +12,7 @@ use App\Http\Controllers\API\ColorController;
 use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\SettingController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\WishlistController;
 use Illuminate\Http\Request;
@@ -21,32 +22,19 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
 Route::controller(FrontendController::class)->group(function () {
-    Route::get('get-categories', 'getCategories');
-    Route::get('get-allProduct', 'getProducts');
-    Route::get('fetchproducts/{category_slug}', 'productOfCategory');
-    Route::get('filter-brand/{brand_name}', 'productOfBrand');
-    Route::get('viewproductdetail/{category_slug}/{product_slug}', 'productdetails');
-    Route::get('search/{product_name}', 'searchProducts');
-
+    Route::get('all-categories', 'categories');
+    Route::get('fetch-products/{category_slug}', 'productOfCategory');
+    Route::get('filter-by-brand/{brand_name}', 'productOfBrand');
+    Route::get('product-details/{category_slug}/{product_slug}', 'productdetails');
+    Route::get('search-product/{product_name}', 'searchProducts');
     Route::get('home', 'home');
     Route::get('trending', 'trending');
     Route::get('featured', 'featured');
+    Route::get('all-product', 'products');
+    Route::get('settings', 'setting');
 });
 
-Route::controller(CartController::class)->group(function () {
-    Route::post('add-to-cart', 'addToCart');
-    Route::get('cart', 'viewCart');
-    Route::put('cart-updatequantity/{cart_id}/{scope}', 'updatequantity');
-    Route::delete('delete-cartitem/{cart_id}', 'deleteCartitem');
-});
-
-Route::controller(WishlistController::class)->group(function () {
-    Route::get('wishlist', 'viewWishList');
-    Route::post('add-to-wishlist', 'addToWishlist');
-    Route::delete('delete-wishitem/{cart_id}', 'deleteWishitem');
-});
-
-Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {
         return response()->json(['message' => 'You are in', 'status' => 200], 200);
     });
@@ -85,6 +73,7 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
         Route::delete('delete-product/{id}', 'destroy');
         Route::post('/product-color/{color_name}', 'updateProdColorQty');
         Route::delete('/product-color/{color_name}/delete', 'deleteProdColor');
+        Route::get('/admin/search-product/{product_name}', 'search');
     });
 
     Route::controller(BannerController::class)->group(function () {
@@ -105,15 +94,33 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     });
 
     Route::controller(AdminOrderController::class)->group(function () {
-        Route::get('admin/orders','index');
-        Route::get('admin/orders/{orderId}', 'show');
-        Route::post('admin/orders/{orderId}', 'updateOrderStatus');
-        Route::get('admin/filter-orders/{statusFilter}/{date}', 'filterOrder');
+        Route::get('orders', 'index');
+        Route::get('orders/{orderId}', 'show');
+        Route::post('orders/{orderId}', 'updateOrderStatus');
+        Route::get('filter-orders/{statusFilter}/{date}', 'filterOrder');
+    });
+
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('settings', 'index');
+        Route::post('settings', 'store');
     });
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::controller(CartController::class)->group(function () {
+        Route::post('add-to-cart', 'addToCart');
+        Route::get('cart', 'viewCart');
+        Route::put('cart-updatequantity/{cart_id}/{scope}', 'updatequantity');
+        Route::delete('delete-cartitem/{cart_id}', 'deleteCartitem');
+    });
+
+    Route::controller(WishlistController::class)->group(function () {
+        Route::get('wishlist', 'viewWishList');
+        Route::post('add-to-wishlist', 'addToWishlist');
+        Route::delete('delete-wishitem/{cart_id}', 'deleteWishitem');
+    });
 
     Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'profile');

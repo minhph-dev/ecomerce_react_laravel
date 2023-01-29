@@ -14,28 +14,42 @@ class AdminOrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        return response()->json([
-            'status' => 200,
-            'orders' => $orders
-        ]);
+        if ($orders) {
+            return response()->json([
+                'status' => 200,
+                'orders' => $orders
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Order Found'
+            ]);
+        }
     }
 
     public function show($orderId)
     {
         $order = Order::where('id', $orderId)->first();
-        $orderItems = OrderItem::where('order_id', $order->id)->get();
         if ($order) {
-            return response()->json([
-                'status' => 200,
-                'data' => [
-                    'order' => $order,
-                    'orderItems' => $orderItems
-                ]
-            ]);
+            $orderItems = OrderItem::where('order_id', $order->id)->get();
+            if ($orderItems) {
+                return response()->json([
+                    'status' => 200,
+                    'data' => [
+                        'order' => $order,
+                        'orderItems' => $orderItems
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Order Details Not Found'
+                ]);
+            }
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Order Id Not Found'
+                'message' => 'Order Details Not Found'
             ]);
         }
     }

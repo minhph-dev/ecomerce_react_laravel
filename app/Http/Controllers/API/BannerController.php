@@ -13,10 +13,17 @@ class BannerController extends Controller
     public function allBanner()
     {
         $banners = Banner::all();
-        return response()->json([
-            'status' => 200,
-            'banners' => $banners
-        ]);
+        if ($banners) {
+            return response()->json([
+                'status' => 200,
+                'banners' => $banners
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Banner Found'
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -45,7 +52,7 @@ class BannerController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = time() . '.' . $ext;
             $file->move('uploads/banner/', $filename);
-            $imagePath = 'uploads/banner/'. $filename;
+            $imagePath = 'uploads/banner/' . $filename;
             $banner->image = $imagePath;
         }
         $banner->save();
