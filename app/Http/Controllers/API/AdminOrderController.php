@@ -86,9 +86,16 @@ class AdminOrderController extends Controller
                 return $q->where('status_message', $statusFilter);
             })
             ->get();
-        return response()->json([
-            'status' => 200,
-            'orders' => $orders
-        ]);
+        if ($orders) {
+            return response()->json([
+                'status' => 200,
+                'orders' => $orders
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Filter Order Failed'
+            ]);
+        }
     }
 }

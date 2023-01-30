@@ -45,6 +45,11 @@ class ProductController extends Controller
                     'allColor' => $allColor ?? [],
                 ]
             ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Fetch Data Failed'
+            ]);
         }
     }
 
@@ -285,19 +290,11 @@ class ProductController extends Controller
                     'message' => 'No Product Found'
                 ]);
             }
-        } else {
-            $searchProducts = Product::all();
-            if ($searchProducts) {
-                return response()->json([
-                    'status' => 200,
-                    'searchProducts' =>  $searchProducts
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 404,
-                    'message' => 'No Product Found'
-                ]);
-            }
+        }else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Product Found'
+            ]);
         }
     }
 }

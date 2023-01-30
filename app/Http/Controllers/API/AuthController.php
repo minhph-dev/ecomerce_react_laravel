@@ -2,86 +2,126 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
-        $validator = Validator::make($request->all(),[
-            'name' =>'required|max:191',
-            'email' =>'required|email|max:191|unique:users,email',
-            'password' =>'required|min:8',
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:191',
+            'email' => 'required|email|max:191|unique:users,email',
+            'password' => 'required|min:8',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'validation_errors'=>$validator->messages(),
+                'validation_errors' => $validator->messages(),
             ]);
-        }else{
+        } else {
             $user = User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password'=>Hash::make($request->password),
-                'phone'=>$request->phone ?? '',
-                'pin_code'=>$request->pin_code ?? '',
-                'address'=>$request->address ?? '',
-                'role_as'=>'0'
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'googleId' => "",
+                'phone' => $request->phone ?? '',
+                'pin_code' => $request->pin_code ?? '',
+                'address' => $request->address ?? '',
+                'role_as' => '0'
             ]);
-            $token = $user->createToken($user->email.'_Token')->plainTextToken;
+            $token = $user->createToken($user->email . '_Token')->plainTextToken;
             return response()->json([
                 'status' => 200,
                 'username' => $user->name,
                 'token' => $token,
-                'message'=>'Registered Successfully'
+                'message' => 'Registered Successfully'
             ]);
         }
     }
 
-    public function login(Request $request){
-        $validator = Validator::make($request->all(), [
-            'email' =>'required|max:191',
-            'password' =>'required'
-        ]);
-        if($validator->fails()){
+    public function loginGoogle(Request $request)
+    {
+        $finduser = User::where('googleId', $request->googleId)->first();
+        if ($finduser) {
+            $role = '';
+            $token = $finduser->createToken($finduser->email . '_Token', [''])->plainTextToken;
             return response()->json([
-                'validation_errors' =>$validator->messages(),
+                'status' => 200,
+                'username' => $finduser->name,
+                'token' => $token,
+                'message' => 'Logged In Successfully',
+                'role' => $role
             ]);
-        }else{
+        } else {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'googleId' => $request->googleId ?? '',
+                'phone' => $request->phone ?? '',
+                'pin_code' => $request->pin_code ?? '',
+                'address' => $request->address ?? '',
+                'role_as' => '0'
+            ]);
+            $token = $user->createToken($user->email . '_Token')->plainTextToken;
+            return response()->json([
+                'status' => 200,
+                'username' => $user->name,
+                'token' => $token,
+                'message' => 'Logged In Successfully'
+            ]);
+        }
+    }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|max:191',
+            'password' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'validation_errors' => $validator->messages(),
+            ]);
+        } else {
             $user = User::where('email', $request->email)->first();
-            if (! $user || ! Hash::check($request->password, $user->password)) {
+            if (!$user || !Hash::check($request->password, $user->password)) {
                 return response()->json([
-                    'status' =>401,
-                    'message' =>'Invalid Credentials'
+                    'status' => 401,
+                    'message' => 'Invalid Credentials'
                 ]);
-            }else{
-                if($user->role_as == 1){
+            } else {
+                if ($user->role_as == 1) {
                     $role = 'admin';
-                    $token = $user->createToken($user->email.'_AdminToken', ['server:admin'])->plainTextToken;
-                }else{
+                    $token = $user->createToken($user->email . '_AdminToken', ['server:admin'])->plainTextToken;
+                } else {
                     $role = '';
-                    $token = $user->createToken($user->email.'_Token', [''])->plainTextToken;
+                    $token = $user->createToken($user->email . '_Token', [''])->plainTextToken;
                 }
                 return response()->json([
                     'status' => 200,
                     'username' => $user->name,
                     'token' => $token,
-                    'message'=>'Logged In Successfully',
+                    'message' => 'Logged In Successfully',
                     'role' => $role
                 ]);
             }
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         auth()->user()->tokens()->delete();
         return response()->json([
-            'status' =>200,
+            'status' => 200,
             'message' => 'Logged Out Successfully'
         ]);
-
     }
 }

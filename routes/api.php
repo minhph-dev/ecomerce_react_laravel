@@ -18,8 +18,12 @@ use App\Http\Controllers\API\WishlistController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('login-google', 'loginGoogle');
+    Route::post('register', 'register');
+});
 
 Route::controller(FrontendController::class)->group(function () {
     Route::get('all-categories', 'categories');
@@ -71,9 +75,9 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'isAPIAdmin'])->group(functi
         Route::get('edit-product/{id}', 'edit');
         Route::post('update-product/{id}', 'update');
         Route::delete('delete-product/{id}', 'destroy');
-        Route::post('/product-color/{color_name}', 'updateProdColorQty');
-        Route::delete('/product-color/{color_name}/delete', 'deleteProdColor');
-        Route::get('/admin/search-product/{product_name}', 'search');
+        Route::post('product-color/{color_name}', 'updateProdColorQty');
+        Route::delete('product-color/{color_name}/delete', 'deleteProdColor');
+        Route::get('search-product/{product_name}', 'search');
     });
 
     Route::controller(BannerController::class)->group(function () {

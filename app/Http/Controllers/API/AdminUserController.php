@@ -85,7 +85,12 @@ class AdminUserController extends Controller
             ]);
         } else {
             $user = User::find($id);
-            if ($user) {
+            if ($user->email == "admin@gmail.com") {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Cannot Update Acount System'
+                ]);
+            } else if ($user) {
                 $user->update([
                     'name' => $request->name,
                     'password' => Hash::make($request->password),
@@ -107,7 +112,17 @@ class AdminUserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        if ($user) {
+        if ($user->id == auth()->user()->id) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Cannot Delete MySelf'
+            ]);
+        } else if ($user->email == "admin@gmail.com") {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Cannot Delete Acount System'
+            ]);
+        } else if ($user) {
             $user->delete();
             return response()->json([
                 'status' => 200,
