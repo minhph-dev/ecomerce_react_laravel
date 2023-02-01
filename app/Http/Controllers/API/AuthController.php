@@ -30,7 +30,6 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'googleId' => "",
                 'phone' => $request->phone ?? '',
                 'pin_code' => $request->pin_code ?? '',
                 'address' => $request->address ?? '',
@@ -42,40 +41,6 @@ class AuthController extends Controller
                 'username' => $user->name,
                 'token' => $token,
                 'message' => 'Registered Successfully'
-            ]);
-        }
-    }
-
-    public function loginGoogle(Request $request)
-    {
-        $finduser = User::where('googleId', $request->googleId)->first();
-        if ($finduser) {
-            $role = '';
-            $token = $finduser->createToken($finduser->email . '_Token', [''])->plainTextToken;
-            return response()->json([
-                'status' => 200,
-                'username' => $finduser->name,
-                'token' => $token,
-                'message' => 'Logged In Successfully',
-                'role' => $role
-            ]);
-        } else {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'googleId' => $request->googleId ?? '',
-                'phone' => $request->phone ?? '',
-                'pin_code' => $request->pin_code ?? '',
-                'address' => $request->address ?? '',
-                'role_as' => '0'
-            ]);
-            $token = $user->createToken($user->email . '_Token')->plainTextToken;
-            return response()->json([
-                'status' => 200,
-                'username' => $user->name,
-                'token' => $token,
-                'message' => 'Logged In Successfully'
             ]);
         }
     }

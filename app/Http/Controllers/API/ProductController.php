@@ -275,10 +275,10 @@ class ProductController extends Controller
         }
     }
 
-    public function search($product_name)
+    public function search(Request $request)
     {
-        if ($product_name !== "") {
-            $searchProducts = Product::where('product_name', 'LIKE', '%' . $product_name . '%')->latest()->get();
+        if ($request->product_name !== "") {
+            $searchProducts = Product::where('product_name', 'LIKE', '%' . $request->product_name . '%')->latest()->get();
             if ($searchProducts) {
                 return response()->json([
                     'status' => 200,
@@ -290,7 +290,7 @@ class ProductController extends Controller
                     'message' => 'No Product Found'
                 ]);
             }
-        }else {
+        } else {
             return response()->json([
                 'status' => 404,
                 'message' => 'No Product Found'

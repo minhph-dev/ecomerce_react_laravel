@@ -9,6 +9,7 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\CheckoutController;
 use App\Http\Controllers\API\ColorController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
@@ -21,7 +22,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
-    Route::post('login-google', 'loginGoogle');
     Route::post('register', 'register');
 });
 
@@ -30,7 +30,7 @@ Route::controller(FrontendController::class)->group(function () {
     Route::get('fetch-products/{category_slug}', 'productOfCategory');
     Route::get('filter-by-brand/{brand_name}', 'productOfBrand');
     Route::get('product-details/{category_slug}/{product_slug}', 'productdetails');
-    Route::get('search-product/{product_name}', 'searchProducts');
+    Route::get('search-product', 'searchProducts');
     Route::get('home', 'home');
     Route::get('trending', 'trending');
     Route::get('featured', 'featured');
@@ -41,6 +41,10 @@ Route::controller(FrontendController::class)->group(function () {
 Route::prefix('admin')->middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::get('/checkingAuthenticated', function () {
         return response()->json(['message' => 'You are in', 'status' => 200], 200);
+    });
+
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('dashboard', 'index');
     });
 
     Route::controller(CategoryController::class)->group(function () {
@@ -77,7 +81,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'isAPIAdmin'])->group(functi
         Route::delete('delete-product/{id}', 'destroy');
         Route::post('product-color/{color_name}', 'updateProdColorQty');
         Route::delete('product-color/{color_name}/delete', 'deleteProdColor');
-        Route::get('search-product/{product_name}', 'search');
+        Route::get('search-product', 'search');
     });
 
     Route::controller(BannerController::class)->group(function () {
@@ -105,7 +109,7 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'isAPIAdmin'])->group(functi
     });
 
     Route::controller(SettingController::class)->group(function () {
-        Route::get('settings', 'index');
+        Route::get('settings', 'setting');
         Route::post('settings', 'store');
     });
 });

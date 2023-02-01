@@ -212,10 +212,10 @@ class FrontendController extends Controller
         }
     }
 
-    public function searchProducts($product_name)
+    public function searchProducts(Request $request)
     {
-        if ($product_name) {
-            $searchProducts = Product::where('product_name', 'LIKE', '%' . $product_name . '%')->latest()->get();
+        if ($request->keyword) {
+            $searchProducts = Product::where('product_name', 'LIKE', '%' . $request->keyword . '%')->latest()->get();
             if ($searchProducts) {
                 return response()->json([
                     'status' => 200,

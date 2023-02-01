@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BannerSeeder::class,
             ProductColorSeeder::class,
+            SettingSeeder::class,
         ]);
     }
 }
-// php artisan migrate:refresh
-// php artisan db:seed 
