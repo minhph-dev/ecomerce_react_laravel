@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import React from "react";
 import { useEffect } from "react";
 
@@ -6,9 +7,9 @@ function Contact() {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div>
-      <h1>I am Contact Page</h1>
-    </div>
+    <Box className="card text-center py-5 my-5">
+      <h4>Contact Page</h4>
+    </Box>
   );
 }
 
