@@ -149,7 +149,7 @@ class ProductController extends Controller
             'category_name' => 'required|max:191',
             'product_name' => 'required|max:191',
             'meta_title' => 'required|max:191',
-            'description' => 'required|max:255',
+            'description' => 'required',
             'original_price' => 'required|max:20',
             'selling_price' => 'required|max:20',
             'quantity' => 'required',
