@@ -117,19 +117,6 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'isAPIAdmin'])->group(functi
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::controller(CartController::class)->group(function () {
-        Route::post('add-to-cart', 'addToCart');
-        Route::get('cart', 'viewCart');
-        Route::put('cart-updatequantity/{cart_id}/{scope}', 'updatequantity');
-        Route::delete('delete-cartitem/{cart_id}', 'deleteCartitem');
-    });
-
-    Route::controller(WishlistController::class)->group(function () {
-        Route::get('wishlist', 'viewWishList');
-        Route::post('add-to-wishlist', 'addToWishlist');
-        Route::delete('delete-wishitem/{cart_id}', 'deleteWishitem');
-    });
-
     Route::controller(UserController::class)->group(function () {
         Route::get('profile', 'profile');
         Route::post('profile', 'updateProfile');
@@ -145,6 +132,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('validate-order', 'validateOrder');
         Route::post('place-order', 'placeorder');
     });
+});
+
+Route::controller(CartController::class)->group(function () {
+    Route::post('add-to-cart', 'addToCart');
+    Route::get('cart', 'viewCart');
+    Route::put('cart-updatequantity/{cart_id}/{scope}', 'updatequantity');
+    Route::delete('delete-cartitem/{cart_id}', 'deleteCartitem');
+});
+
+Route::controller(WishlistController::class)->group(function () {
+    Route::get('wishlist', 'viewWishList');
+    Route::post('add-to-wishlist', 'addToWishlist');
+    Route::delete('delete-wishitem/{cart_id}', 'deleteWishitem');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

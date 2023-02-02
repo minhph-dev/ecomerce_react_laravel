@@ -59,7 +59,7 @@ class ProductController extends Controller
             'category_name' => 'required|max:191',
             'product_name' => 'required|max:191',
             'meta_title' => 'required|max:191',
-            'description' => 'required|max:255',
+            'description' => 'required',
             'original_price' => 'required|max:20',
             'selling_price' => 'required|max:20',
             'quantity' => 'required',
@@ -81,9 +81,9 @@ class ProductController extends Controller
             $product->original_price = $request->original_price;
             $product->selling_price = $request->selling_price;
             $product->quantity = $request->quantity;
-            $product->trending = $request->trending == true ? '1' : '0';
-            $product->featured = $request->featured == true ? '1' : '0';
-            $product->status = $request->status == true ? '1' : '0';
+            $product->trending = $request->trending == 'true' ? '1' : '0';
+            $product->featured = $request->featured == 'true' ? '1' : '0';
+            $product->status = $request->status == 'true' ? '1' : '0';
 
             $product->meta_title = $request->meta_title;
             $product->meta_keyword = $request->meta_keyword;
@@ -172,9 +172,9 @@ class ProductController extends Controller
                 $product->original_price = $request->original_price;
                 $product->selling_price = $request->selling_price;
                 $product->quantity = $request->quantity;
-                $product->trending = $request->trending == true ? '1' : '0';
-                $product->featured = $request->featured == true ? '1' : '0';
-                $product->status = $request->status == true ? '1' : '0';
+                $product->trending = $request->trending == 'true' ? '1' : '0';
+                $product->featured = $request->featured == 'true' ? '1' : '0';
+                $product->status = $request->status == 'true' ? '1' : '0';
 
                 $product->meta_title = $request->meta_title;
                 $product->meta_keyword = $request->meta_keyword;

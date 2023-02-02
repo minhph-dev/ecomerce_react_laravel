@@ -31,7 +31,6 @@ class CategoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_name' => 'required|unique:categories',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,gif',
             'description' => 'nullable|max:255',
         ]);
 

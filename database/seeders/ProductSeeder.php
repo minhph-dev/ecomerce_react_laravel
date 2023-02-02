@@ -332,7 +332,7 @@ class ProductSeeder extends Seeder
             [
                 'category_name' => 'Tablet',
                 'product_name' => 'Máy tính bảng Samsung Galaxy Tab A7 Lite',
-                'slug' => 'samsung-galaxy-tab-s7-fe-wifi#top-color-images-gallery-7',
+                'slug' => 'samsung-galaxy-tab-s7-fe-wifi-top-color-images-gallery-7',
                 'brand_name' => 'SamSung',
                 'description' => 'Galaxy Tab A7 Lite sở hữu kiểu thiết kế đặc trưng của dòng Galaxy Tab A7. Thiết bị sử dụng chất liệu nhôm với thiết kế nguyên khối giúp cho máy trở nên cao cấp hơn dù chỉ thuộc phân khúc tầm trung giá rẻ.',
                 'original_price' => 1100,

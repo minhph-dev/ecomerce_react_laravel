@@ -34,8 +34,8 @@ class FrontendController extends Controller
     {
         $categories = Category::all();
         $banners = Banner::all();
-        $trendingProducts = Product::where('trending', '1')->latest()->get();
-        $featuredProducts = Product::where('featured', '1')->latest()->get();
+        $trendingProducts = Product::where('status', '0')->where('trending', '1')->latest()->get();
+        $featuredProducts = Product::where('status', '0')->where('featured', '1')->latest()->get();
         if ($categories || $banners || $trendingProducts || $featuredProducts) {
             return response()->json([
                 'status' => 200,
@@ -55,7 +55,7 @@ class FrontendController extends Controller
     }
     public function trending()
     {
-        $trendingProducts = Product::where('trending', '1')->latest()->get();
+        $trendingProducts = Product::where('status', '0')->where('trending', '1')->latest()->get();
         if ($trendingProducts) {
             return response()->json([
                 'status' => 200,
@@ -71,7 +71,7 @@ class FrontendController extends Controller
 
     public function featured()
     {
-        $featuredProducts = Product::where('featured', '1')->latest()->get();
+        $featuredProducts = Product::where('status', '0')->where('featured', '1')->latest()->get();
         if ($featuredProducts) {
             return response()->json([
                 'status' => 200,
@@ -106,7 +106,7 @@ class FrontendController extends Controller
         $allCategory = Category::all();
         $allBrand = Brand::all();
         $allColor = Color::all();
-        $products = Product::all();
+        $products = Product::where('status', '0')->get();
         if ($products) {
             foreach ($products as $product) {
                 $colorOfProducts = $product->productColors()->get();
@@ -215,7 +215,7 @@ class FrontendController extends Controller
     public function searchProducts(Request $request)
     {
         if ($request->keyword) {
-            $searchProducts = Product::where('product_name', 'LIKE', '%' . $request->keyword . '%')->latest()->get();
+            $searchProducts = Product::where('product_name', 'LIKE', '%' . $request->keyword . '%')->where('status', 0)->latest()->get();
             if ($searchProducts) {
                 return response()->json([
                     'status' => 200,
