@@ -164,7 +164,7 @@ export default function OrderDetails() {
                 <TableCell>{orderItem.id}</TableCell>
                 <TableCell>
                   <img
-                    src={`http://localhost:8000//${
+                    src={`https://pacific-depths-48667.herokuapp.com//${
                       orderItem.product.image ?? ""
                     }`}
                     width="50px"

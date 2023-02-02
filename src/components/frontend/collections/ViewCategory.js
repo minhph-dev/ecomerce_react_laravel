@@ -66,7 +66,7 @@ function ViewCategory() {
                     component="img"
                     height="300"
                     sx={{ objectFit: "contain" }}
-                    image={`http://localhost:8000/${category.image}`}
+                    image={`https://pacific-depths-48667.herokuapp.com/${category.image}`}
                     alt={category.category_name}
                   />
                 </Link>

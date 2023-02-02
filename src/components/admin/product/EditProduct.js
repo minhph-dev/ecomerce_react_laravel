@@ -454,7 +454,7 @@ function EditProduct() {
 
                 <Grid item xs={5}>
                   <img
-                    src={`http://localhost:8000/${productInput.image ?? ""}`}
+                    src={`https://pacific-depths-48667.herokuapp.com/${productInput.image ?? ""}`}
                     width="50px"
                     alt={productInput.product_name}
                   />

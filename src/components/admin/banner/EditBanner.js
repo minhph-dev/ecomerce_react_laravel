@@ -166,7 +166,7 @@ function EditBanner() {
 
           <Grid item xs={4} sm={6}>
             <img
-              src={`http://localhost:8000/${input.image ?? ""}`}
+              src={`https://pacific-depths-48667.herokuapp.com/${input.image ?? ""}`}
               width="50px"
               alt={input.product_name ?? ""}
             />
