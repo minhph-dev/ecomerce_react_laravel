@@ -36,6 +36,7 @@ function AddCategory() {
         URL.createObjectURL(file)
       );
       setPicture({ image: e.target.files[0] });
+      console.log(picture.image);
       setSelectedFiles((prevImages) => prevImages.concat(fileArrayTemp));
       Array.from(e.target.files).map((file) => URL.revokeObjectURL(file));
     }
@@ -67,20 +68,26 @@ function AddCategory() {
     formData.append("image", picture.image);
     formData.append("description", input.description);
 
-    axios.post(`api/admin/store-category`, formData).then((res) => {
-      if (res.data.status === 200) {
-        e.target.reset();
-        swal("Success", res.data.message, "success");
-        setInput({
-          ...input,
-          category_name: "",
-          description: "",
-          errors: [],
-        });
-      } else if (res.data.status === 400) {
-        setInput({ ...input, errors: res.data.errors });
-      }
-    });
+    axios
+      .post(`api/admin/store-category`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          e.target.reset();
+          swal("Success", res.data.message, "success");
+          setInput({
+            ...input,
+            category_name: "",
+            description: "",
+            errors: [],
+          });
+        } else if (res.data.status === 400) {
+          setInput({ ...input, errors: res.data.errors });
+        }
+      });
   };
 
   return (

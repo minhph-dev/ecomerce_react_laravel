@@ -20,7 +20,7 @@ export default function CardCompare({ data, onClick }) {
             <CardMedia
               sx={{ height: "80px", objectFit: "contain" }}
               component="img"
-              image={`http://localhost:8000/${data.image}`}
+              image={`https://pacific-depths-48667.herokuapp.com/${data.image}`}
               alt={data.product_name}
             />
             <ClearIcon

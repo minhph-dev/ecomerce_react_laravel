@@ -114,7 +114,7 @@ export default function CardProduct({ data, onClick, compareIcon }) {
           <Link to={`/collections/${data.category.slug}/${data.slug}`}>
             <CardMedia
               component="img"
-              image={`http://localhost:8000/${data.image}`}
+              image={`https://pacific-depths-48667.herokuapp.com/${data.image}`}
               alt={data.product_name}
             />
           </Link>
@@ -195,7 +195,7 @@ export default function CardProduct({ data, onClick, compareIcon }) {
                 component="img"
                 className="w-100 h-100"
                 sx={{ objectFit: "contain" }}
-                image={`http://localhost:8000/${data.image}`}
+                image={`https://pacific-depths-48667.herokuapp.com/${data.image}`}
                 alt={data.product_name}
               />
             </Grid>
@@ -216,7 +216,7 @@ export default function CardProduct({ data, onClick, compareIcon }) {
               >
                 Brand:
                 <img
-                  src={`http://localhost:8000/${data.brand.image}`}
+                  src={`https://pacific-depths-48667.herokuapp.com/${data.brand.image}`}
                   width="30px"
                   className="mx-2"
                   alt={data.brand.brand_name}

@@ -40,7 +40,7 @@ export default function WishList() {
           setWishlists(res.data.wishlists);
           setLoading(false);
         } else if (res.data.status === 401) {
-          navigate("/");
+          navigate("/login");
           swal("Warning", res.data.message, "error");
         }
       }
@@ -106,7 +106,7 @@ export default function WishList() {
                     <TableRow key={cart.id}>
                       <TableCell>
                         <img
-                          src={`http://localhost:8000/${cart.product.image}`}
+                          src={`https://pacific-depths-48667.herokuapp.com/${cart.product.image}`}
                           alt={cart.product.product_name}
                           height="50px"
                         />

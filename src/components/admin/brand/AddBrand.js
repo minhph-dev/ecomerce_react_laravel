@@ -83,20 +83,26 @@ function AddBrand() {
     formData.append("brand_name", input.brand_name);
     formData.append("image", picture.image);
 
-    axios.post(`api/admin/store-brand`, formData).then((res) => {
-      if (res.data.status === 200) {
-        e.target.reset();
-        setInput({
-          ...input,
-          category_name: "",
-          brand_name: "",
-          errors: [],
-        });
-        swal("Success", res.data.message, "success");
-      } else if (res.data.status === 400) {
-        setInput({ ...input, errors: res.data.errors });
-      }
-    });
+    axios
+      .post(`api/admin/store-brand`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          e.target.reset();
+          setInput({
+            ...input,
+            category_name: "",
+            brand_name: "",
+            errors: [],
+          });
+          swal("Success", res.data.message, "success");
+        } else if (res.data.status === 400) {
+          setInput({ ...input, errors: res.data.errors });
+        }
+      });
   };
 
   return (

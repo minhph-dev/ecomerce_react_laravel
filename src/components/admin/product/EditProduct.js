@@ -150,18 +150,24 @@ function EditProduct() {
     formData.append("trending", trending);
     formData.append("status", status);
 
-    axios.post(`/api/admin/update-product/${id}`, formData).then((res) => {
-      if (res.data.status === 200) {
-        swal("Success", res.data.message, "success");
-        setErrors([]);
-      } else if (res.data.status === 422) {
-        swal("All Fields are mandetory", "", "error");
-        setErrors(res.data.errors);
-      } else if (res.data.status === 404) {
-        swal("Update Failed", res.data.message, "error");
-        navigate("/admin/view-product");
-      }
-    });
+    axios
+      .post(`/api/admin/update-product/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          swal("Success", res.data.message, "success");
+          setErrors([]);
+        } else if (res.data.status === 422) {
+          swal("All Fields are mandetory", "", "error");
+          setErrors(res.data.errors);
+        } else if (res.data.status === 404) {
+          swal("Update Failed", res.data.message, "error");
+          navigate("/admin/view-product");
+        }
+      });
   };
 
   const updateProductColor = (e, color_name) => {
@@ -448,7 +454,7 @@ function EditProduct() {
 
                 <Grid item xs={5}>
                   <img
-                    src={`${process.env.REACT_APP_DOMAIN}${productInput.image ?? ""}`}
+                    src={`https://pacific-depths-48667.herokuapp.com/${productInput.image ?? ""}`}
                     width="50px"
                     alt={productInput.product_name}
                   />

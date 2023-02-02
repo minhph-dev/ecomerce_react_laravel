@@ -15,7 +15,7 @@ function AddBanner() {
     errors: [],
   });
 
-   useEffect(() => {
+  useEffect(() => {
     let isMounted = true;
     if (isMounted) {
       document.title = "Add Banner";
@@ -67,21 +67,27 @@ function AddBanner() {
     formData.append("link", input.link);
     formData.append("image", picture.image);
 
-    axios.post(`api/admin/store-banner`, formData).then((res) => {
-      if (res.data.status === 200) {
-        e.target.reset();
-        setInput({
-          ...input,
-          title: "",
-          description: "",
-          link: "",
-          errors: [],
-        });
-        swal("Success", res.data.message, "success");
-      } else if (res.data.status === 400) {
-        setInput({ ...input, errors: res.data.errors });
-      }
-    });
+    axios
+      .post(`api/admin/store-banner`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          e.target.reset();
+          setInput({
+            ...input,
+            title: "",
+            description: "",
+            link: "",
+            errors: [],
+          });
+          swal("Success", res.data.message, "success");
+        } else if (res.data.status === 400) {
+          setInput({ ...input, errors: res.data.errors });
+        }
+      });
   };
 
   return (

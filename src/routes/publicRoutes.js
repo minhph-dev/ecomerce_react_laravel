@@ -1,5 +1,4 @@
 import Home from "./../components/frontend/pages/Home";
-import About from "./../components/frontend/pages/About";
 import Contact from "./../components/frontend/pages/Contact";
 import Trending from "./../components/frontend/pages/Trending";
 import Featured from "./../components/frontend/pages/Featured";
@@ -22,7 +21,6 @@ import Page404 from "./../components/errors/Page404";
 
 const publicRoutes = [
   { path: "/", component: Home },
-  { path: "/about", component: About },
   { path: "/contact", component: Contact },
   { path: "/trending", component: Trending },
   { path: "/featured", component: Featured },

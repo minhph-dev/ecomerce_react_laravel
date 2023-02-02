@@ -50,7 +50,7 @@ function Cart() {
           setCart(res.data.cart);
           setLoading(false);
         } else if (res.data.status === 401) {
-          navigate("/");
+          navigate("/login");
           swal("Warning", res.data.message, "error");
         }
       }
@@ -158,7 +158,7 @@ function Cart() {
                     <TableRow key={cart.id}>
                       <TableCell>
                         <img
-                          src={`http://localhost:8000/${cart.product.image}`}
+                          src={`https://pacific-depths-48667.herokuapp.com/${cart.product.image}`}
                           alt={cart.product.product_name}
                           height="50px"
                         />
@@ -228,9 +228,11 @@ function Cart() {
                     CHECKOUT
                   </Button>
                 </Link>
-                <Button variant="contained" className="w-100 mt-2">
-                  CONTINUE SHOPPING
-                </Button>
+                <Link to="/">
+                  <Button variant="contained" className="w-100 mt-2">
+                    CONTINUE SHOPPING
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </Box>

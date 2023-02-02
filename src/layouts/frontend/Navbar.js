@@ -186,7 +186,9 @@ function Navbar() {
               <StyledProfile className={openProfile && "d-block"}>
                 <StyledProfileItem to="/profile">My Profile</StyledProfileItem>
                 <StyledProfileItem to="/orders">My Order</StyledProfileItem>
-                <StyledProfileItem to="#" onClick={logoutSubmit}>Logout</StyledProfileItem>
+                <StyledProfileItem to="#" onClick={logoutSubmit}>
+                  Logout
+                </StyledProfileItem>
               </StyledProfile>
             </Box>
           ) : (

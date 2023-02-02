@@ -72,17 +72,23 @@ function EditBanner() {
     formData.append("link", input.link);
     formData.append("image", picture.image);
 
-    axios.post(`/api/admin/update-banner/${id}`, formData).then((res) => {
-      if (res.data.status === 200) {
-        swal("Success", res.data.message, "success");
-        setErrors([]);
-      } else if (res.data.status === 422) {
-        setErrors(res.data.errors);
-      } else if (res.data.status === 404) {
-        swal("Error", res.data.message, "error");
-        navigate("/admin/view-banner");
-      }
-    });
+    axios
+      .post(`/api/admin/update-banner/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          swal("Success", res.data.message, "success");
+          setErrors([]);
+        } else if (res.data.status === 422) {
+          setErrors(res.data.errors);
+        } else if (res.data.status === 404) {
+          swal("Error", res.data.message, "error");
+          navigate("/admin/view-banner");
+        }
+      });
   };
 
   return (
@@ -160,7 +166,7 @@ function EditBanner() {
 
           <Grid item xs={4} sm={6}>
             <img
-              src={`${process.env.REACT_APP_DOMAIN}${input.image ?? ""}`}
+              src={`https://pacific-depths-48667.herokuapp.com/${input.image ?? ""}`}
               width="50px"
               alt={input.product_name ?? ""}
             />

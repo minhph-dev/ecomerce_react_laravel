@@ -136,30 +136,36 @@ function AddProduct() {
     formData.append("trending", trending);
     formData.append("status", status);
 
-    axios.post(`/api/admin/store-product`, formData).then((res) => {
-      if (res.data.status === 200) {
-        swal("Success", res.data.message, "success");
-        setInput({
-          ...input,
-          category_name: "",
-          product_name: "",
-          brand_name: "",
-          description: "",
-          original_price: "",
-          selling_price: "",
-          quantity: "",
-          trending: "",
-          featured: "",
-          status: "",
-          meta_title: "",
-          meta_keyword: "",
-          meta_description: "",
-        });
-        setError([]);
-      } else if (res.data.status === 422) {
-        setError(res.data.errors);
-      }
-    });
+    axios
+      .post(`/api/admin/store-product`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          swal("Success", res.data.message, "success");
+          setInput({
+            ...input,
+            category_name: "",
+            product_name: "",
+            brand_name: "",
+            description: "",
+            original_price: "",
+            selling_price: "",
+            quantity: "",
+            trending: "",
+            featured: "",
+            status: "",
+            meta_title: "",
+            meta_keyword: "",
+            meta_description: "",
+          });
+          setError([]);
+        } else if (res.data.status === 422) {
+          setError(res.data.errors);
+        }
+      });
   };
 
   return (

@@ -106,7 +106,7 @@ export default function ViewCategory() {
                 <TableCell>{row.category_name}</TableCell>
                 <TableCell>
                   <img
-                    src={`${process.env.REACT_APP_DOMAIN}${row.image}`}
+                    src={`https://pacific-depths-48667.herokuapp.com/${row.image}`}
                     height="50px"
                     alt={row.category_name}
                   />

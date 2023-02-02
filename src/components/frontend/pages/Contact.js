@@ -7,7 +7,7 @@ function Contact() {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <Box className="card text-center py-5 my-5">
+    <Box className="container card text-center py-5 my-5">
       <h4>Contact Page</h4>
     </Box>
   );

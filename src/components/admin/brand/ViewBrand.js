@@ -104,7 +104,7 @@ export default function ViewBrand() {
                 <TableCell>{row.brand_name}</TableCell>
                 <TableCell>
                   <img
-                    src={`${process.env.REACT_APP_DOMAIN}${row.image}`}
+                    src={`https://pacific-depths-48667.herokuapp.com/${row.image}`}
                     width="50px"
                     style={{ objectFit: "cover" }}
                     alt={row.brand_name}

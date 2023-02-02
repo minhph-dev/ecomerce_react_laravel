@@ -7,7 +7,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 function EditCategory() {
   const navigate = useNavigate();
-  const {id} = useParams();
+  const { id } = useParams();
   const [input, setInput] = useState({});
   const [error, setError] = useState([]);
   const [picture, setPicture] = useState([]);
@@ -19,7 +19,9 @@ function EditCategory() {
       if (isMounted) {
         if (res.data.status === 200) {
           setInput(res.data.category);
-          document.title = `Edit Category ${res.data.category.category_name ?? "Edit Category"}`;
+          document.title = `Edit Category ${
+            res.data.category.category_name ?? "Edit Category"
+          }`;
         } else if (res.data.status === 404) {
           swal("Error", res.data.message, "error");
           navigate("/admin/view-category");
@@ -71,7 +73,11 @@ function EditCategory() {
     formData.append("image", picture.image);
     formData.append("description", input.description);
     axios
-      .post(`/api/admin/update-category/${id}`, formData)
+      .post(`/api/admin/update-category/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         if (res.data.status === 200) {
           swal("Success", res.data.message, "success");
@@ -127,7 +133,7 @@ function EditCategory() {
 
           <Grid item xs={3} sm={6}>
             <img
-              src={`${process.env.REACT_APP_DOMAIN}${input.image ?? ""}`}
+              src={`https://pacific-depths-48667.herokuapp.com/${input.image ?? ""}`}
               height="50px"
               alt={input.category_name ?? ""}
             />

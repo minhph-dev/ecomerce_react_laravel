@@ -85,17 +85,23 @@ function EditBrand() {
     formData.append("brand_name", input.brand_name);
     formData.append("image", picture.image);
 
-    axios.post(`/api/admin/update-brand/${id}`, formData).then((res) => {
-      if (res.data.status === 200) {
-        swal("Success", res.data.message, "success");
-        setErrors([]);
-      } else if (res.data.status === 422) {
-        setErrors(res.data.errors);
-      } else if (res.data.status === 404) {
-        swal("Error", res.data.message, "error");
-        navigate("/admin/view-brand");
-      }
-    });
+    axios
+      .post(`/api/admin/update-brand/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          swal("Success", res.data.message, "success");
+          setErrors([]);
+        } else if (res.data.status === 422) {
+          setErrors(res.data.errors);
+        } else if (res.data.status === 404) {
+          swal("Error", res.data.message, "error");
+          navigate("/admin/view-brand");
+        }
+      });
   };
 
   return (
@@ -167,7 +173,7 @@ function EditBrand() {
 
           <Grid item xs={5} sm={6}>
             <img
-              src={`${process.env.REACT_APP_DOMAIN}${input.image ?? ""}`}
+              src={`https://pacific-depths-48667.herokuapp.com/${input.image ?? ""}`}
               height="50px"
               alt={input.category_name ?? ""}
             />
