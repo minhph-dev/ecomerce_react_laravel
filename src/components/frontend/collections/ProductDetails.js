@@ -111,10 +111,32 @@ function ProductDetail() {
         swal("Success", res.data.message, "success");
       } else if (res.data.status === 401) {
         //Unauthenticated
-        swal("Error", res.data.message, "error");
+        swal("Error", res.data.message, "warning");
       } else if (res.data.status === 404) {
         //Not Found
-        swal("Warning", res.data.message, "warning");
+        swal("Warning", res.data.message, "error");
+      }
+    });
+  };
+
+  const submitAddtoWishList = (product) => {
+    const data = {
+      product_id: product.id,
+    };
+
+    axios.post(`/api/add-to-wishlist`, data).then((res) => {
+      if (res.data.status === 201) {
+        //Created - Data Inserted
+        swal("Success", res.data.message, "success");
+      } else if (res.data.status === 409) {
+        //Already added to cart
+        swal("Success", res.data.message, "success");
+      } else if (res.data.status === 401) {
+        //Unauthenticated
+        swal("Error", res.data.message, "warning");
+      } else if (res.data.status === 404) {
+        //Not Found
+        swal("Warning", res.data.message, "error");
       }
     });
   };
@@ -213,7 +235,11 @@ function ProductDetail() {
             </FilterContainer>
           )}
 
-          <ButtonGroup size="small" aria-label="small button group" className="mt-3">
+          <ButtonGroup
+            size="small"
+            aria-label="small button group"
+            className="mt-3"
+          >
             <Button onClick={handleDecrement}>
               <RemoveIcon />
             </Button>
@@ -232,7 +258,11 @@ function ProductDetail() {
                 Add To Cart
               </Button>
             )}
-            <Button variant="outlined" color="error">
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={() => submitAddtoWishList(product)}
+            >
               Add To Wish List
             </Button>
           </Box>

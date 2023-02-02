@@ -164,7 +164,7 @@ export default function OrderDetails() {
                 <TableCell>{orderItem.id}</TableCell>
                 <TableCell>
                   <img
-                    src={`http://localhost:8000/${
+                    src={`${process.env.REACT_APP_DOMAIN}/${
                       orderItem.product.image ?? ""
                     }`}
                     width="50px"

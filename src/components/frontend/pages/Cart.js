@@ -36,13 +36,12 @@ function Cart() {
   const [cart, setCart] = useState([]);
   var totalCartPrice = 0;
 
-  if (!sessionStorage.getItem("auth_token")) {
-    navigate("/");
-    swal("Warning", "Login to goto Cart Page", "error");
-  }
-
   useEffect(() => {
     let isMounted = true;
+    if (!sessionStorage.getItem("auth_token")) {
+      navigate("/");
+      swal("Warning", "Login to goto Cart Page", "warning");
+    }
     window.scrollTo(0, 0);
     document.title = "My Shopping Cart";
     axios.get(`/api/cart`).then((res) => {

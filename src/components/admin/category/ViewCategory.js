@@ -106,7 +106,7 @@ export default function ViewCategory() {
                 <TableCell>{row.category_name}</TableCell>
                 <TableCell>
                   <img
-                    src={`http://localhost:8000/${row.image}`}
+                    src={`${process.env.REACT_APP_DOMAIN}${row.image}`}
                     height="50px"
                     alt={row.category_name}
                   />

@@ -9,7 +9,6 @@ import {
   TextField,
   Typography,
   Grid,
-  FormControlLabel,
   Checkbox,
   FormControl,
   InputLabel,
@@ -41,6 +40,9 @@ function AddProduct() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [colorQuantity, setColorQuantity] = useState([]);
   const [errorlist, setError] = useState([]);
+  const [status, setStatus] = useState(false);
+  const [featured, setFeatured] = useState(false);
+  const [trending, setTrending] = useState(false);
   const [input, setInput] = useState({
     category_name: "",
     product_name: "",
@@ -49,9 +51,6 @@ function AddProduct() {
     original_price: "",
     selling_price: "",
     quantity: "",
-    trending: "",
-    featured: "",
-    status: "",
     meta_title: "",
     meta_keyword: "",
     meta_description: "",
@@ -133,9 +132,9 @@ function AddProduct() {
     formData.append("original_price", input.original_price);
     formData.append("selling_price", input.selling_price);
     formData.append("quantity", input.quantity);
-    formData.append("featured", input.featured);
-    formData.append("trending", input.trending);
-    formData.append("status", input.status);
+    formData.append("featured", featured);
+    formData.append("trending", trending);
+    formData.append("status", status);
 
     axios.post(`/api/admin/store-product`, formData).then((res) => {
       if (res.data.status === 200) {
@@ -373,33 +372,30 @@ function AddProduct() {
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  name="status"
-                  onChange={handleInput}
-                  value={input.status}
-                  label="Status (checked=Hidden)"
+                <Checkbox
+                  checked={status}
+                  onChange={(e) => setStatus(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
                 />
+                Status (Checked = Hidden)
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  name="featured"
-                  onChange={handleInput}
-                  value={input.featured}
-                  label="Featured (checked=shown)"
+                <Checkbox
+                  checked={featured}
+                  onChange={(e) => setFeatured(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
                 />
+                Featured (Checked = Show)
               </Grid>
 
               <Grid item xs={12} md={6}>
-                <FormControlLabel
-                  control={<Checkbox />}
-                  name="Trending"
-                  onChange={handleInput}
-                  value={input.trending}
-                  label="Popular (checked=shown)"
+                <Checkbox
+                  checked={trending}
+                  onChange={(e) => setTrending(e.target.checked)}
+                  inputProps={{ "aria-label": "controlled" }}
                 />
+                Trending (Checked = Show)
               </Grid>
 
               <Grid item xs={12}>

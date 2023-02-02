@@ -167,7 +167,7 @@ function EditBrand() {
 
           <Grid item xs={5} sm={6}>
             <img
-              src={`http://localhost:8000/${input.image ?? ""}`}
+              src={`${process.env.REACT_APP_DOMAIN}${input.image ?? ""}`}
               height="50px"
               alt={input.category_name ?? ""}
             />

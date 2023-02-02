@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,6 +28,16 @@ function Register() {
     password: "",
     error_list: [],
   });
+
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      window.scrollTo(0, 0);
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleInput = (e) => {
     e.persist();

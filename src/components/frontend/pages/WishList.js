@@ -26,13 +26,12 @@ export default function WishList() {
   const [loading, setLoading] = useState(true);
   const [wishlists, setWishlists] = useState([]);
 
-  if (!sessionStorage.getItem("auth_token")) {
-    navigate("/");
-    swal("Warning", "Login to goto WishList Page", "error");
-  }
-
   useEffect(() => {
     let isMounted = true;
+    if (!sessionStorage.getItem("auth_token")) {
+      navigate("/");
+      swal("Warning", "Login to goto WishList Page", "warning");
+    }
     window.scrollTo(0, 0);
     document.title = "WishList Product";
     axios.get(`/api/wishlist`).then((res) => {

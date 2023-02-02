@@ -76,10 +76,10 @@ export default function CardProduct({ data, onClick, compareIcon }) {
         swal("Success", res.data.message, "success");
       } else if (res.data.status === 401) {
         //Unauthenticated
-        swal("Error", res.data.message, "error");
+        swal("Error", res.data.message, "warning");
       } else if (res.data.status === 404) {
         //Not Found
-        swal("Warning", res.data.message, "warning");
+        swal("Warning", res.data.message, "error");
       }
     });
   };
@@ -100,10 +100,10 @@ export default function CardProduct({ data, onClick, compareIcon }) {
         swal("Success", res.data.message, "success");
       } else if (res.data.status === 401) {
         //Unauthenticated
-        swal("Error", res.data.message, "error");
+        swal("Error", res.data.message, "warning");
       } else if (res.data.status === 404) {
         //Not Found
-        swal("Warning", res.data.message, "warning");
+        swal("Warning", res.data.message, "error");
       }
     });
   };
@@ -261,7 +261,7 @@ export default function CardProduct({ data, onClick, compareIcon }) {
                     Add To Cart
                   </Button>
                 )}
-                <Button variant="outlined" color="error">
+                <Button variant="outlined" color="error" onClick={() => submitAddtoWishList(data)}>
                   Add To Wish List
                 </Button>
               </Box>

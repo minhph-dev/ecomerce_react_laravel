@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
   Grid,
-  FormControlLabel,
   Checkbox,
   FormControl,
   InputLabel,
@@ -56,13 +55,13 @@ function EditProduct() {
     original_price: "",
     selling_price: "",
     quantity: "",
-    trending: "",
-    featured: "",
-    status: "",
     meta_title: "",
     meta_keyword: "",
     meta_description: "",
   });
+  const [status, setStatus] = useState(false);
+  const [featured, setFeatured] = useState(false);
+  const [trending, setTrending] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -74,6 +73,9 @@ function EditProduct() {
           setColors(res.data.data.allColor);
           setProduct(res.data.data.product);
           setColorOfProducts(res.data.data.colorOfProducts);
+          setStatus(res.data.data.product.status === 1 ? true : false);
+          setFeatured(res.data.data.product.featured === 1 ? true : false);
+          setTrending(res.data.data.product.trending === 1 ? true : false);
         } else if (res.data.status === 404) {
           swal("Error", res.data.message, "error");
           navigate("/admin/view-product");
@@ -144,9 +146,9 @@ function EditProduct() {
     formData.append("original_price", productInput.original_price);
     formData.append("selling_price", productInput.selling_price);
     formData.append("quantity", productInput.quantity);
-    formData.append("featured", productInput.featured);
-    formData.append("trending", productInput.trending);
-    formData.append("status", productInput.status);
+    formData.append("featured", featured);
+    formData.append("trending", trending);
+    formData.append("status", status);
 
     axios.post(`/api/admin/update-product/${id}`, formData).then((res) => {
       if (res.data.status === 200) {
@@ -397,15 +399,32 @@ function EditProduct() {
                     />
                   </FormControl>
                 </Grid>
+
                 <Grid item xs={12} md={6}>
-                  <FormControlLabel
-                    sx={{ marginTop: "20px" }}
-                    control={<Checkbox />}
-                    name="status"
-                    onChange={handleInput}
-                    value={productInput.status}
-                    label="Status (checked=Hidden)"
+                  <Checkbox
+                    checked={status}
+                    onChange={(e) => setStatus(e.target.checked)}
+                    inputProps={{ "aria-label": "controlled" }}
                   />
+                  Status (Checked = Hidden)
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Checkbox
+                    checked={featured}
+                    onChange={(e) => setFeatured(e.target.checked)}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                  Featured (Checked = Show)
+                </Grid>
+
+                <Grid item xs={12} md={6}>
+                  <Checkbox
+                    checked={trending}
+                    onChange={(e) => setTrending(e.target.checked)}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                  Trending (Checked = Show)
                 </Grid>
 
                 <Grid item xs={7}>
@@ -429,7 +448,7 @@ function EditProduct() {
 
                 <Grid item xs={5}>
                   <img
-                    src={`http://localhost:8000/${productInput.image ?? ""}`}
+                    src={`${process.env.REACT_APP_DOMAIN}${productInput.image ?? ""}`}
                     width="50px"
                     alt={productInput.product_name}
                   />
@@ -437,25 +456,6 @@ function EditProduct() {
 
                 <Grid item xs={12}>
                   <Box>{renderPhotos(selectedFiles)}</Box>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    name="featured"
-                    onChange={handleInput}
-                    value={productInput.featured}
-                    label="Featured (checked=shown)"
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    name="popular"
-                    onChange={handleInput}
-                    value={productInput.popular}
-                    label="Popular (checked=shown)"
-                  />
                 </Grid>
               </Grid>
 

@@ -169,7 +169,7 @@ function ViewProduct() {
                 <TableCell>{row.product_name}</TableCell>
                 <TableCell>
                   <img
-                    src={`http://localhost:8000/${row.image ?? ""}`}
+                    src={`${process.env.REACT_APP_DOMAIN}${row.image ?? ""}`}
                     width="50px"
                     alt={row.product_name}
                   />
@@ -179,7 +179,17 @@ function ViewProduct() {
                 </TableCell>
                 <TableCell>{row.brand_name}</TableCell>
                 <TableCell>{row.selling_price}$</TableCell>
-                <TableCell>{row.status === 0 ? "Visible" : "Hidden"}</TableCell>
+                <TableCell>
+                  {row.status === 0 ? (
+                    <Button variant="contained" color="primary" size="small">
+                      Active
+                    </Button>
+                  ) : (
+                    <Button variant="contained" color="error" size="small">
+                      Hidden
+                    </Button>
+                  )}
+                </TableCell>
                 <TableCell align="center">
                   <Tooltip title="Edit" arrow>
                     <Link
