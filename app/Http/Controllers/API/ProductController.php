@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->get();
         if ($products) {
             return response()->json([
                 'status' => 200,

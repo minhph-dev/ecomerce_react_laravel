@@ -13,7 +13,7 @@ class CategoryController extends Controller
 {
     public function allCategories()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('created_at', 'desc')->get();
         if ($categories) {
             return response()->json([
                 'status' => 200,
@@ -54,7 +54,7 @@ class CategoryController extends Controller
                 $category->image = $uploadPath . $filename;
             }
 
-            $category->description = $request->input('description');
+            $category->description = $request->description;
             $category->save();
             return response()->json([
                 'status' => 200,

@@ -14,7 +14,7 @@ class BrandController extends Controller
 {
     public function allBrands()
     {
-        $brands = Brand::all();
+        $brands = Brand::orderBy('created_at', 'desc')->get();
         if ($brands) {
             return response()->json([
                 'status' => 200,
@@ -42,7 +42,7 @@ class BrandController extends Controller
         } else {
             $brand = new Brand();
             $brand->category_name = $request->category_name ?? "No Category";
-            $brand->brand_name = $request->brand_name;
+            $brand->brand_name = $request->brand_name ?? "No Brand";
             $brand->slug = Str::slug($request->brand_name);
 
             if ($request->hasFile('image')) {
