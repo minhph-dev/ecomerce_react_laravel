@@ -6,7 +6,7 @@ import publicRoutes from "./routes/publicRoutes";
 import privateRoutes from "./routes/privateRoutes";
 import Page404 from './components/errors/Page404';
 
-axios.defaults.baseURL = "https://pacific-depths-48667.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
 

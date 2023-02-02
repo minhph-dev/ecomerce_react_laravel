@@ -28,23 +28,23 @@ export default function Setting() {
     youtube: "",
   });
 
-  useEffect(() => {
-    let isMounted = true;
-    document.title = "Setting";
-    axios.get(`/api/admin/settings`).then((res) => {
-      if (isMounted) {
-        if (res.status === 200) {
-          setInput(res.data.setting);
-          console.log(res.data);
-        } else if (res.data.status === 404) {
-          swal("Error", res.data.message, "error");
-        }
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   document.title = "Setting";
+  //   axios.get(`/api/admin/settings`).then((res) => {
+  //     if (isMounted) {
+  //       if (res.status === 200) {
+  //         setInput(res.data.setting);
+  //         console.log(res.data);
+  //       } else if (res.data.status === 404) {
+  //         swal("Error", res.data.message, "error");
+  //       }
+  //     }
+  //   });
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, []);
 
   const handleInput = (e) => {
     e.persist();

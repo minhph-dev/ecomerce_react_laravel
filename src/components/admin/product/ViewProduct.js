@@ -169,7 +169,7 @@ function ViewProduct() {
                 <TableCell>{row.product_name}</TableCell>
                 <TableCell>
                   <img
-                    src={`https://pacific-depths-48667.herokuapp.com/${row.image ?? ""}`}
+                    src={`http://localhost:8000/${row.image ?? ""}`}
                     width="50px"
                     alt={row.product_name}
                   />

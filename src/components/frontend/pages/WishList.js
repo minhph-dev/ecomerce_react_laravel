@@ -106,7 +106,7 @@ export default function WishList() {
                     <TableRow key={cart.id}>
                       <TableCell>
                         <img
-                          src={`https://pacific-depths-48667.herokuapp.com/${cart.product.image}`}
+                          src={`http://localhost:8000/${cart.product.image}`}
                           alt={cart.product.product_name}
                           height="50px"
                         />
