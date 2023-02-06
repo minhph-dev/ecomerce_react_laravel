@@ -106,7 +106,7 @@ export default function WishList() {
                     <TableRow key={cart.id}>
                       <TableCell>
                         <img
-                          src={`http://localhost:8000/${cart.product.image}`}
+                          src={`${process.env.REACT_APP_DOMAIN}${cart.product.image}`}
                           alt={cart.product.product_name}
                           height="50px"
                         />

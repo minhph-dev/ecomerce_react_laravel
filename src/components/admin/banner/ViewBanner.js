@@ -116,7 +116,7 @@ export default function ViewBanner() {
                 <TableCell>{row.title}</TableCell>
                 <TableCell>
                   <img
-                    src={`http://localhost:8000/${row.image ?? ""}`}
+                    src={`${process.env.REACT_APP_DOMAIN}${row.image ?? ""}`}
                     width="100%"
                     alt={row.title}
                   />

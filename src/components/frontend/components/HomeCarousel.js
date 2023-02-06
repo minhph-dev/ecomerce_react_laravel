@@ -56,8 +56,8 @@ export default function HomeCarousel({ data }) {
           >
             <img
               width="100%"
-              style={{maxHeight:'500px'}}
-              src={`http://localhost:8000/${dataItem.image}`}
+              style={{ maxHeight: "500px" }}
+              src={`${process.env.REACT_APP_DOMAIN}${dataItem.image}`}
               alt={dataItem.title}
             />
           </Link>

@@ -20,7 +20,7 @@ export default function CardCompare({ data, onClick }) {
             <CardMedia
               sx={{ height: "80px", objectFit: "contain" }}
               component="img"
-              image={`http://localhost:8000/${data.image}`}
+              image={`${process.env.REACT_APP_DOMAIN}${data.image}`}
               alt={data.product_name}
             />
             <ClearIcon

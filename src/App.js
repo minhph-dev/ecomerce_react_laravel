@@ -5,9 +5,9 @@ import axios from "axios";
 import publicRoutes from "./routes/publicRoutes";
 import privateRoutes from "./routes/privateRoutes";
 import Page404 from "./components/errors/Page404";
-import Page403 from './components/errors/Page403';
+import Page403 from "./components/errors/Page403";
 
-axios.defaults.baseURL = "http://localhost:8000/";
+axios.defaults.baseURL = process.env.REACT_APP_DOMAIN;
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
 

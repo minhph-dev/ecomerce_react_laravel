@@ -104,7 +104,7 @@ export default function ViewBrand() {
                 <TableCell>{row.brand_name}</TableCell>
                 <TableCell>
                   <img
-                    src={`http://localhost:8000/${row.image}`}
+                    src={`${process.env.REACT_APP_DOMAIN}${row.image}`}
                     width="50px"
                     style={{ objectFit: "cover" }}
                     alt={row.brand_name}

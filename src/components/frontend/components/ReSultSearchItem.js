@@ -27,7 +27,7 @@ export default function ReSultSearchItem({ data }) {
         <Grid item xs={2} sx={{ background: "#fff" }}>
           <img
             className="w-100"
-            src={`http://localhost:8000/${data.image}`}
+            src={`${process.env.REACT_APP_DOMAIN}${data.image}`}
             alt={data.product_name}
             width="50"
           />

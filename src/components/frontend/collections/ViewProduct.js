@@ -195,7 +195,7 @@ function ViewProduct(props) {
                 style={{ height: "42px" }}
               >
                 <img
-                  src={`http://localhost:8000/${item.image}`}
+                  src={`${process.env.REACT_APP_DOMAIN}${item.image}`}
                   width="30px"
                   className="me-3"
                   alt={item.brand_name}
@@ -325,7 +325,7 @@ function ViewProduct(props) {
                   <Link to={`/collections/${item.category.slug}/${item.slug}`}>
                     <CardMedia
                       component="img"
-                      image={`http://localhost:8000/${item.image}`}
+                      image={`${process.env.REACT_APP_DOMAIN}${item.image}`}
                       alt={item.product_name}
                     />
                   </Link>
@@ -362,7 +362,7 @@ function ViewProduct(props) {
                     >
                       Brand:
                       <img
-                        src={`http://localhost:8000/${item.brand.image}`}
+                        src={`${process.env.REACT_APP_DOMAIN}${item.brand.image}`}
                         width="30px"
                         className="mx-2"
                         alt={item.brand.brand_name}

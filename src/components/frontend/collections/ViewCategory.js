@@ -66,7 +66,7 @@ function ViewCategory() {
                     component="img"
                     height="300"
                     sx={{ objectFit: "contain" }}
-                    image={`http://localhost:8000/${category.image}`}
+                    image={`${process.env.REACT_APP_DOMAIN}${category.image}`}
                     alt={category.category_name}
                   />
                 </Link>

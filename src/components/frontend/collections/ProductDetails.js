@@ -182,7 +182,7 @@ function ProductDetail() {
         <Grid item xs={12} md={5}>
           <CardMedia
             component="img"
-            image={`http://localhost:8000/${product.image}`}
+            image={`${process.env.REACT_APP_DOMAIN}${product.image}`}
             alt={product.product_name}
           />
         </Grid>
@@ -203,7 +203,7 @@ function ProductDetail() {
           >
             Brand:
             <img
-              src={`http://localhost:8000/${product.brand.image}`}
+              src={`${process.env.REACT_APP_DOMAIN}${product.brand.image}`}
               width="30px"
               className="mx-2"
               alt={product.brand.brand_name}

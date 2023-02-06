@@ -454,7 +454,7 @@ function EditProduct() {
 
                 <Grid item xs={5}>
                   <img
-                    src={`http://localhost:8000/${productInput.image ?? ""}`}
+                    src={`${process.env.REACT_APP_DOMAIN}${productInput.image ?? ""}`}
                     width="50px"
                     alt={productInput.product_name}
                   />
