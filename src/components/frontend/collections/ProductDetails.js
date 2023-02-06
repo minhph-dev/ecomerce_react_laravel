@@ -182,7 +182,7 @@ function ProductDetail() {
         <Grid item xs={12} md={5}>
           <CardMedia
             component="img"
-            image={`https://pacific-depths-48667.herokuapp.com/${product.image}`}
+            image={`http://localhost:8000/${product.image}`}
             alt={product.product_name}
           />
         </Grid>
@@ -203,7 +203,7 @@ function ProductDetail() {
           >
             Brand:
             <img
-              src={`https://pacific-depths-48667.herokuapp.com/${product.brand.image}`}
+              src={`http://localhost:8000/${product.brand.image}`}
               width="30px"
               className="mx-2"
               alt={product.brand.brand_name}

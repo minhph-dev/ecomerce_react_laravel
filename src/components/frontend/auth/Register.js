@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   Box,
   Container,
@@ -12,16 +12,16 @@ import {
   CssBaseline,
   TextField,
   FormControlLabel,
-  Checkbox
+  Checkbox,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useContext } from "react";
-import { WrapperContext } from "../../../context/WrapperContext";
+import { AuthContext } from "../../../context/AuthProvider";
 
 function Register() {
   const navigate = useNavigate();
-  const { setLogged } = useContext(WrapperContext);
+  const { setLogged } = useContext(AuthContext);
   const [registerInput, setRegister] = useState({
     name: "",
     email: "",
@@ -74,7 +74,9 @@ function Register() {
     });
   };
   const theme = createTheme();
-
+  if (sessionStorage.getItem("auth_token")) {
+    return <Navigate to="/" />;
+  }
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

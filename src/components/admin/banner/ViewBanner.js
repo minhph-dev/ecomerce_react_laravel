@@ -116,7 +116,7 @@ export default function ViewBanner() {
                 <TableCell>{row.title}</TableCell>
                 <TableCell>
                   <img
-                    src={`https://pacific-depths-48667.herokuapp.com/${row.image ?? ""}`}
+                    src={`http://localhost:8000/${row.image ?? ""}`}
                     width="100%"
                     alt={row.title}
                   />

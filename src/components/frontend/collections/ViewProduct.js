@@ -195,7 +195,7 @@ function ViewProduct(props) {
                 style={{ height: "42px" }}
               >
                 <img
-                  src={`https://pacific-depths-48667.herokuapp.com/${item.image}`}
+                  src={`http://localhost:8000/${item.image}`}
                   width="30px"
                   className="me-3"
                   alt={item.brand_name}
@@ -325,7 +325,7 @@ function ViewProduct(props) {
                   <Link to={`/collections/${item.category.slug}/${item.slug}`}>
                     <CardMedia
                       component="img"
-                      image={`https://pacific-depths-48667.herokuapp.com/${item.image}`}
+                      image={`http://localhost:8000/${item.image}`}
                       alt={item.product_name}
                     />
                   </Link>
@@ -362,7 +362,7 @@ function ViewProduct(props) {
                     >
                       Brand:
                       <img
-                        src={`https://pacific-depths-48667.herokuapp.com/${item.brand.image}`}
+                        src={`http://localhost:8000/${item.brand.image}`}
                         width="30px"
                         className="mx-2"
                         alt={item.brand.brand_name}

@@ -173,7 +173,7 @@ function EditBrand() {
 
           <Grid item xs={5} sm={6}>
             <img
-              src={`https://pacific-depths-48667.herokuapp.com/${input.image ?? ""}`}
+              src={`http://localhost:8000/${input.image ?? ""}`}
               height="50px"
               alt={input.category_name ?? ""}
             />

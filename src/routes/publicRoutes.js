@@ -16,16 +16,12 @@ import ChangePassword from "./../components/frontend/pages/ChangePassword";
 import Order from "./../components/frontend/pages/Order";
 import OrderDetails from "./../components/frontend/pages/OrderDetails";
 import Search from "./../components/frontend/pages/Search";
-import Page403 from "./../components/errors/Page403";
-import Page404 from "./../components/errors/Page404";
 
 const publicRoutes = [
   { path: "/", component: Home },
   { path: "/contact", component: Contact },
   { path: "/trending", component: Trending },
   { path: "/featured", component: Featured },
-  { path: "/403", component: Page403 },
-  { path: "/404", component: Page404 },
   { path: "/login", component: Login },
   { path: "/register", component: Register },
   { path: "/collections", component: ViewCategory },
@@ -40,6 +36,7 @@ const publicRoutes = [
   { path: "/orders", component: Order },
   { path: "/orders/:orderId", component: OrderDetails },
   { path: "/search/:productname", component: Search },
+
 ];
 
 export default publicRoutes;

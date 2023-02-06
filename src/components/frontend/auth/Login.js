@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import swal from "sweetalert";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   Box,
   Avatar,
@@ -16,11 +16,11 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { WrapperContext } from "./../../../context/WrapperContext";
+import { AuthContext } from "../../../context/AuthProvider";
 
 function Login() {
   const navigate = useNavigate();
-  const { setLogged } = useContext(WrapperContext);
+  const { setLogged } = useContext(AuthContext);
   const [loginInput, setLogin] = useState({
     email: "",
     password: "",
@@ -76,7 +76,9 @@ function Login() {
     });
   };
   const theme = createTheme();
-
+  if (sessionStorage.getItem("auth_token")) {
+    return <Navigate to="/" />;
+  }
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

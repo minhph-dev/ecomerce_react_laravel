@@ -1,15 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
-import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../layouts/frontend/Navbar";
 import styled from "styled-components";
 import Footer from "./Footer";
-import { useState } from "react";
-import { WrapperContext } from "./../../context/WrapperContext";
 import { Box } from "@mui/material";
-import axios from "axios";
 import NavMobile from "./NavMobile";
+import AuthProvider from "../../context/AuthProvider";
 
 const WrapperNav = styled.div`
   top: 0;
@@ -24,25 +21,8 @@ const WrapperContent = styled.div`
 `;
 
 const FrontendLayout = () => {
-  const [logged, setLogged] = useState(false);
-  const [setting, setSetting] = useState({});
-
-  useEffect(() => {
-    let isMounted = true;
-    axios.get(`/api/settings`).then((res) => {
-      if (isMounted) {
-        if (res.data.status === 200) {
-          setSetting(res.data.setting);
-        }
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [setSetting]);
-
   return (
-    <WrapperContext.Provider value={{ logged, setLogged, setting, setSetting }}>
+    <AuthProvider>
       <Box className="w-100 h-100">
         <WrapperNav className="w-100 position-fixed">
           <Navbar />
@@ -59,7 +39,7 @@ const FrontendLayout = () => {
           </Box>
         </WrapperContent>
       </Box>
-    </WrapperContext.Provider>
+    </AuthProvider>
   );
 };
 

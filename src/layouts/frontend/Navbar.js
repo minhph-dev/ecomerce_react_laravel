@@ -10,28 +10,47 @@ import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import Badge from "@mui/material/Badge";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import LoginIcon from "@mui/icons-material/Login";
-import { WrapperContext } from "../../context/WrapperContext";
 import { tablet } from "../../reponsive";
+import useDebounce from "./../../hooks/useDebounce";
+import ReSultSearchItem from "../../components/frontend/components/ReSultSearchItem";
+import { AuthContext } from "../../context/AuthProvider";
 
 const Wrapper = styled(Grid)`
   padding: 0 7.5%;
   ${tablet({ padding: "0 2% !important" })}
+  border-radius: 20px;
+`;
+
+const StyledInput = styled.input`
+  border-radius: 20px;
+  background-color: #f8f9fa;
+  z-index: 1;
+  height: 40px;
+  border: none;
+  outline: none;
 `;
 
 const SearchWrapper = styled(Grid)`
   height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 999px;
-  &:focus-within {
-    border: 1px solid black;
-  }
+  border-radius: 20px;
 `;
-const StyledInput = styled.input`
-  border-radius: 999px;
-  height: 40px;
-  border: none;
-  outline: none;
+
+const StyledWrapperResult = styled.div`
+  top: 20px;
+  padding-top: 20px;
+  max-height: 350px;
+  overflow-y: overlay;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
 `;
 
 const StyledIconButton = styled(IconButton)`
@@ -70,16 +89,30 @@ const LinkItem = styled(Link)`
 
 function Navbar() {
   const navigate = useNavigate();
-  const ref = useRef(null);
-  const [searchValue, setSearchValue] = useState("");
+  const inputRef = useRef();
+  const profileRef = useRef(null);
   const [openProfile, setOpenProfile] = useState(false);
-  const { logged, setLogged, setting } = useContext(WrapperContext);
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResult] = useState([]);
+  const [showResult, setShowResult] = useState(false);
+  const { logged, setLogged, setting } = useContext(AuthContext);
+  const debouncedValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
-    if (sessionStorage.getItem("auth_token")) {
-      setLogged(true);
+    if (!debouncedValue.trim()) {
+      setSearchResult([]);
+      return;
     }
-  }, [setLogged]);
+    axios
+      .get(`/api/search-product`, {
+        params: {
+          keyword: debouncedValue,
+        },
+      })
+      .then((res) => {
+        setSearchResult(res.data.searchProducts);
+      });
+  }, [debouncedValue]);
 
   const logoutSubmit = (e) => {
     axios.post(`/api/logout`).then((res) => {
@@ -101,17 +134,28 @@ function Navbar() {
   };
 
   const handleKeyPress = (e) => {
+    setShowResult(true);
     const searchValue = e.target.value;
     if (e.key === "Enter" && searchValue !== "") {
       setSearchValue(searchValue);
+      setShowResult(false);
       navigate(`/search/${searchValue}`);
     }
   };
 
+  const handleClear = () => {
+    setSearchValue("");
+    setSearchResult([]);
+    inputRef.current.focus();
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
         setOpenProfile(false);
+      }
+      if (inputRef.current && !inputRef.current.contains(event.target)) {
+        setShowResult(false);
       }
     };
     document.addEventListener("click", handleClickOutside, true);
@@ -137,21 +181,46 @@ function Navbar() {
           item
           xs={0}
           sm={6}
-          className="align-items-center justify-content-center p-0 d-none d-md-flex"
+          className="align-items-center justify-content-center p-0 d-none d-md-flex position-relative"
         >
           <Link
             to={searchValue !== "" ? `/search/${searchValue}` : "#"}
-            className="ms-3"
+            className="position-absolute"
+            style={{ zIndex: "2", left: "10px" }}
           >
             <SearchIcon />
           </Link>
+          <HighlightOffIcon
+            onClick={handleClear}
+            className="position-absolute"
+            style={{ zIndex: "2", right: "10px", color: "#bbb" }}
+          />
           <StyledInput
+            ref={inputRef}
             placeholder="Searching for..."
-            className="h-100 w-100 ps-3"
+            className="h-100 w-100 ps-5"
             value={searchValue}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
+            onFocus={() => {
+              setShowResult(true);
+            }}
           />
+          {showResult && (
+            <StyledWrapperResult className="bg-light position-absolute w-100 px-3">
+              {searchResults.length > 0 ? (
+                <>
+                  {searchResults?.map((item) => {
+                    return <ReSultSearchItem key={item.id} data={item} />;
+                  })}
+                </>
+              ) : (
+                <div className="text-center my-5">
+                  <p>No search results yet</p>
+                </div>
+              )}
+            </StyledWrapperResult>
+          )}
         </SearchWrapper>
         <Grid item xs={10} sm={3} className="d-flex justify-content-end">
           <Tooltip title="WishList" arrow>
@@ -179,7 +248,7 @@ function Navbar() {
                   setOpenProfile(!openProfile);
                 }}
               >
-                <StyledIconButton ref={ref}>
+                <StyledIconButton ref={profileRef}>
                   <Person2OutlinedIcon />
                 </StyledIconButton>
               </Tooltip>
@@ -211,21 +280,46 @@ function Navbar() {
           item
           xs={12}
           sm={8}
-          className="align-items-center justify-content-center p-0 d-md-none d-flex"
+          className="align-items-center justify-content-center p-0 d-md-none d-flex position-relative"
         >
           <Link
             to={searchValue !== "" ? `/search/${searchValue}` : "#"}
-            className="ms-3"
+            className="position-absolute"
+            style={{ zIndex: "2", left: "10px" }}
           >
             <SearchIcon />
           </Link>
+          <HighlightOffIcon
+            onClick={handleClear}
+            className="position-absolute"
+            style={{ zIndex: "2", right: "10px", color: "#bbb" }}
+          />
           <StyledInput
+            ref={inputRef}
             placeholder="Searching for..."
-            className="h-100 w-100 ps-3"
+            className="h-100 w-100 ps-5"
             value={searchValue}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
+            onFocus={() => {
+              setShowResult(true);
+            }}
           />
+          {showResult && (
+            <StyledWrapperResult className="bg-light position-absolute w-100 px-3">
+              {searchResults.length > 0 ? (
+                <>
+                  {searchResults?.map((item) => {
+                    return <ReSultSearchItem key={item.id} data={item} />;
+                  })}
+                </>
+              ) : (
+                <div className="text-center my-5">
+                  <p>No search results yet</p>
+                </div>
+              )}
+            </StyledWrapperResult>
+          )}
         </SearchWrapper>
         <Grid
           item

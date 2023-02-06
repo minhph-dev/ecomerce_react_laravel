@@ -57,7 +57,7 @@ export default function HomeCarousel({ data }) {
             <img
               width="100%"
               style={{maxHeight:'500px'}}
-              src={`https://pacific-depths-48667.herokuapp.com/${dataItem.image}`}
+              src={`http://localhost:8000/${dataItem.image}`}
               alt={dataItem.title}
             />
           </Link>

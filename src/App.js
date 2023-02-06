@@ -4,9 +4,10 @@ import MasterLayout from "./layouts/admin/MasterLayout";
 import axios from "axios";
 import publicRoutes from "./routes/publicRoutes";
 import privateRoutes from "./routes/privateRoutes";
-import Page404 from './components/errors/Page404';
+import Page404 from "./components/errors/Page404";
+import Page403 from './components/errors/Page403';
 
-axios.defaults.baseURL = "https://pacific-depths-48667.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.post["Accept"] = "application/json";
 
@@ -22,6 +23,8 @@ function App() {
   return (
     <Routes>
       <Route path="*" element={<Page404 />} />
+      <Route path="/403" element={<Page403 />} />
+      <Route path="/404" element={<Page404 />} />
       <Route path="/admin" element={<MasterLayout />}>
         {privateRoutes?.map((publicRoute, index) => {
           return (

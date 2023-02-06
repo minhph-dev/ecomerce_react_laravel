@@ -6,7 +6,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import GoogleIcon from "@mui/icons-material/Google";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { WrapperContext } from "../../context/WrapperContext";
+import { AuthContext } from "../../context/AuthProvider";
 
 const StyledGrid = styled(Grid)`
   padding: 2% 5%;
@@ -27,7 +27,7 @@ const StyledTypograpy = styled(Typography)`
 `;
 
 export default function Footer() {
-  const { setting } = useContext(WrapperContext);
+  const { setting } = useContext(AuthContext);
 
   return (
     <StyledGrid container spacing={2}>
