@@ -6,6 +6,7 @@ import publicRoutes from "./routes/publicRoutes";
 import privateRoutes from "./routes/privateRoutes";
 import Page404 from "./components/errors/Page404";
 import Page403 from "./components/errors/Page403";
+import './firebase/config'
 
 axios.defaults.baseURL = process.env.REACT_APP_DOMAIN;
 axios.defaults.headers.post["Content-Type"] = "application/json";

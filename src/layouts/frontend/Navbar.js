@@ -95,7 +95,7 @@ function Navbar() {
   const [searchValue, setSearchValue] = useState("");
   const [searchResults, setSearchResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
-  const { logged, setLogged, setting } = useContext(AuthContext);
+  const { logged, setLogged, setting,  user: { auth } } = useContext(AuthContext);
   const debouncedValue = useDebounce(searchValue, 500);
 
   useEffect(() => {
@@ -119,6 +119,7 @@ function Navbar() {
       if (res.data.status === 200) {
         sessionStorage.removeItem("auth_token");
         sessionStorage.removeItem("auth_name");
+        auth.signOut();
         setLogged(false);
         swal("Success", res.data.message, "success");
         navigate("/");
@@ -202,9 +203,6 @@ function Navbar() {
             value={searchValue}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
-            onFocus={() => {
-              setShowResult(true);
-            }}
           />
           {showResult && (
             <StyledWrapperResult className="bg-light position-absolute w-100 px-3">
@@ -301,9 +299,6 @@ function Navbar() {
             value={searchValue}
             onChange={handleChange}
             onKeyPress={handleKeyPress}
-            onFocus={() => {
-              setShowResult(true);
-            }}
           />
           {showResult && (
             <StyledWrapperResult className="bg-light position-absolute w-100 px-3">

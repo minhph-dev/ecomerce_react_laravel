@@ -8,8 +8,6 @@ import {
   Button,
   CssBaseline,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Grid,
   Typography,
   Container,
@@ -17,6 +15,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { AuthContext } from "../../../context/AuthProvider";
+import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 
 function Login() {
   const navigate = useNavigate();
@@ -26,6 +25,7 @@ function Login() {
     password: "",
     error_list: [],
   });
+  const auth = getAuth();
 
   useEffect(() => {
     let isMounted = true;
@@ -36,6 +36,14 @@ function Login() {
       isMounted = false;
     };
   }, []);
+
+  const handleLoginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+
+    const {
+      user: { uid, displayName },
+    } = await signInWithPopup(auth, provider);
+  };
 
   const handleInput = (e) => {
     e.persist();
@@ -134,10 +142,6 @@ function Login() {
               autoComplete="current-password"
               helperText={loginInput.error_list.password}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -150,6 +154,15 @@ function Login() {
               Sign In
             </Button>
             <Grid container>
+              <Grid item xs={12}>
+                <Button
+                  variant="outlined"
+                  onClick={handleLoginWithGoogle}
+                  className="w-100 mb-2"
+                >
+                  Login with Google
+                </Button>
+              </Grid>
               <Grid item xs={12} className="text-end">
                 <Link to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
