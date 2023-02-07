@@ -119,7 +119,7 @@ function Navbar() {
       if (res.data.status === 200) {
         sessionStorage.removeItem("auth_token");
         sessionStorage.removeItem("auth_name");
-        auth.signOut();
+        auth?.signOut();
         setLogged(false);
         swal("Success", res.data.message, "success");
         navigate("/");

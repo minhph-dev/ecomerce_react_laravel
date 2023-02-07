@@ -40,9 +40,7 @@ function Login() {
   const handleLoginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
 
-    const {
-      user: { uid, displayName },
-    } = await signInWithPopup(auth, provider);
+    const { user } = await signInWithPopup(auth, provider);
   };
 
   const handleInput = (e) => {

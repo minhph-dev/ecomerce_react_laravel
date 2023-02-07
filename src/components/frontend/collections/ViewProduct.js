@@ -234,7 +234,7 @@ function ViewProduct(props) {
         }}
         className="position-fixed bg-light shadow"
       >
-        <Grid item xs={9} className="d-flex w-100">
+        <Grid item xs={9} className="d-flex w-100 bg-warning">
           {compareList?.map((item) => {
             return (
               <CardCompare
@@ -251,7 +251,7 @@ function ViewProduct(props) {
             );
           })}
         </Grid>
-        <Grid item xs={3} className="d-flex w-100">
+        <Grid item xs={3} className="d-flex w-100 bg-warning">
           {compareList.length > 1 && (
             <Grid item xs={12}>
               <Card className="h-100 d-flex align-items-center justify-content-center flex-column">
@@ -287,15 +287,15 @@ function ViewProduct(props) {
         aria-describedby="keep-mounted-modal-description"
       >
         <Box sx={style} className="p-0">
-          <IconButton
-            className="d-flex justify-content-between w-100  px-sm-0 px-md-3"
+          <Box
+            className="d-flex justify-content-between w-100  px-sm-0 px-md-3 my-3"
             onClick={() => {
               setOpenModalCompare(false);
             }}
           >
             Compare {category.category_name}
             <ClearIcon />
-          </IconButton>
+          </Box>
           <Grid container className="px-sm-0 px-md-3">
             {compareList?.map((item) => {
               return (

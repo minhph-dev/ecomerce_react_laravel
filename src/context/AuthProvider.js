@@ -17,7 +17,6 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubcribed = auth.onIdTokenChanged((user) => {
-      console.log("[From AuthProvider]", { user });
       if (user?.uid) {
         const data = {
           name: user.displayName,
@@ -32,14 +31,12 @@ export default function AuthProvider({ children }) {
               sessionStorage.setItem("auth_name", res.data.username);
               setUser(user);
               setLogged(true);
-              swal("Success", res.data.message, "success");
               navigate("/");
             }
           });
         });
       }
     });
-
     return () => {
       unsubcribed();
     };
