@@ -29,7 +29,7 @@ export default function WishList() {
   useEffect(() => {
     let isMounted = true;
     if (!sessionStorage.getItem("auth_token")) {
-      navigate("/");
+      navigate("/login");
       swal("Warning", "Login to goto WishList Page", "warning");
     }
     window.scrollTo(0, 0);

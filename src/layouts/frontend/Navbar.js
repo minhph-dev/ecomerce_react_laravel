@@ -326,7 +326,7 @@ function Navbar() {
           <LinkItem to={"/collections"}>Collections</LinkItem>
           <LinkItem to={"/trending"}>Trending Product</LinkItem>
           <LinkItem to={"/featured"}>Featured Product</LinkItem>
-          <LinkItem to={"/contact"}>Contact</LinkItem>
+          {/* <LinkItem to={"/contact"}>Contact</LinkItem>   */}
         </Grid>
       </Grid>
     </Wrapper>

@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# ECOMERCE
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🔗 [Preview](https://ecomerce-shop.vercel.app/)
 
-## Available Scripts
+## 👉 Run local
 
 In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Main Functions:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 👉 Admin Dashboard
 
-### `npm test`
+### User:admin@gmail.com
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### PassWord: 123456789
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Manage CRUD categories.
+- Manage CRUD brands.
+- Manage CRUD colors.
+- Manage CRUD products.
+- Manage CRUD users.
+- Manage CRUD sliders.
+- Can set up site information .
+- Can can view user's order details, update order status, send order details mail to user, export order details pdf file .
+## 👉 User Client
+- Can register, login page with their account or login google account.
+- Can find the sale off, new product.
+- Can  quickly view the product or view product details, relative products  in the product detail page.
+- Can compare products in the same category.
+- Can view personal information, edit information, change passwords.
+- Can add product to cart.
+- Can checkout order by  payment delivery
+- Can add their favorite products to the wish-list.
+- Can users view purchase history and purchase details.
+- Can quickly view the product or view product details, relative products in the product detail page.

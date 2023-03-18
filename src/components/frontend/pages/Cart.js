@@ -39,7 +39,7 @@ function Cart() {
   useEffect(() => {
     let isMounted = true;
     if (!sessionStorage.getItem("auth_token")) {
-      navigate("/");
+      navigate("/login");
       swal("Warning", "Login to goto Cart Page", "warning");
     }
     window.scrollTo(0, 0);
