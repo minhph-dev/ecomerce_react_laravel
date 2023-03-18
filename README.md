@@ -1,6 +1,6 @@
 # ECOMERCE
 
-🔗 [Preview](https://ecomerce-shop.vercel.app/)
+🔗 [Preview =>](https://ecomerce-shop.vercel.app/)
 
 ## 👉 Run local
 
@@ -12,10 +12,7 @@ In the project directory, you can run:
 
 ## 👉 Admin Dashboard
 
-### User:admin@gmail.com
-
-### PassWord: 123456789
-
+### `User: admin@gmail.com | Password: 123456789`
 - Manage CRUD categories.
 - Manage CRUD brands.
 - Manage CRUD colors.
