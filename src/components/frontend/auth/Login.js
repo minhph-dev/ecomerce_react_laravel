@@ -152,7 +152,7 @@ function Login() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Button
                   variant="outlined"
                   onClick={handleLoginWithGoogle}
@@ -160,7 +160,7 @@ function Login() {
                 >
                   Login with Google
                 </Button>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12} className="text-end">
                 <Link to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
