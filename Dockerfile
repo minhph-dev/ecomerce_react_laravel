@@ -10,7 +10,7 @@ COPY . .
 # Chạy lệnh cài đặt package từ file nix và làm sạch
 RUN nix-env -if .nixpacks/nixpkgs-5148520bfab61f99fd25fb9ff7bfbb50dad3c9db.nix && nix-collect-garbage -d
 
-# (Các bước tiếp theo của triển khai Laravel của bạn)
+# Expose cổng mặc định cho ứng dụng Laravel của bạn
+EXPOSE 80
 
-# Expose các cổng cần thiết (nếu có)
-EXPOSE <port>
+# (Các bước tiếp theo của triển khai Laravel của bạn)
