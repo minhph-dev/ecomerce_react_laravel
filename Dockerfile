@@ -1,16 +1,23 @@
-# Sử dụng một image có hỗ trợ Nix
-FROM nixos/nix
+FROM php:8.1.7-fpm
 
-# Đặt thư mục làm thư mục làm việc của ứng dụng Laravel
-WORKDIR /app
+ARG user
+ARG uid
 
-# Copy mã nguồn ứng dụng Laravel vào image
-COPY . .
+RUN apt update && apt install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev
+RUN apt clean && rm -rf /var/lib/apt/lists/*
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Chạy lệnh cài đặt package từ file nix và làm sạch
-RUN nix-env -if .nixpacks/nixpkgs-5148520bfab61f99fd25fb9ff7bfbb50dad3c9db.nix && nix-collect-garbage -d
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Expose cổng mặc định cho ứng dụng Laravel của bạn
-EXPOSE 80
+RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN mkdir -p /home/$user/.composer && \
+    chown -R $user:$user /home/$user
 
-# (Các bước tiếp theo của triển khai Laravel của bạn)
+WORKDIR /var/www
+
+USER $user
